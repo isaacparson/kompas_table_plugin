@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user_interface", "user_interface.csproj", "{D3C9C4E9-B3BB-4161-9FC5-8FEC069F541E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "internal_logic", "..\logic\internal_logic.csproj", "{7D428B07-0771-4C15-9A3E-92338076DA7A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5CEC017-8BE1-4703-856B-8529B6FB0F19} = {C5CEC017-8BE1-4703-856B-8529B6FB0F19}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api_logic", "..\api_logic\api_logic.csproj", "{C5CEC017-8BE1-4703-856B-8529B6FB0F19}"
 EndProject
