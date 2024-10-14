@@ -65,6 +65,7 @@
             this.radioButtonInventor.TabStop = true;
             this.radioButtonInventor.Text = "Inventor";
             this.radioButtonInventor.UseVisualStyleBackColor = true;
+            this.radioButtonInventor.CheckedChanged += new System.EventHandler(this.radioButtonInventor_CheckedChanged);
             // 
             // label1
             // 
@@ -80,84 +81,85 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(15, 77);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(144, 16);
+            this.label2.Size = new System.Drawing.Size(226, 16);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Ширина столешницы:";
+            this.label2.Text = "Ширина столешницы (500-5000мм):";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(15, 122);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(148, 16);
+            this.label3.Size = new System.Drawing.Size(230, 16);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Глубина столешницы:";
+            this.label3.Text = "Глубина столешницы (500-5000мм):";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(12, 169);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(151, 16);
+            this.label4.Size = new System.Drawing.Size(219, 16);
             this.label4.TabIndex = 5;
-            this.label4.Text = "Толщина столешницы:";
+            this.label4.Text = "Толщина столешницы (16-100мм):";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(15, 213);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(104, 16);
+            this.label5.Size = new System.Drawing.Size(172, 16);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Ширина ножек:";
+            this.label5.Text = "Ширина ножек (20-200мм):";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(15, 256);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(99, 16);
+            this.label6.Size = new System.Drawing.Size(181, 16);
             this.label6.TabIndex = 7;
-            this.label6.Text = "Высота стола:";
+            this.label6.Text = "Высота стола (500-1400мм):";
             // 
             // textBoxTopWidth
             // 
-            this.textBoxTopWidth.Location = new System.Drawing.Point(215, 71);
+            this.textBoxTopWidth.Location = new System.Drawing.Point(303, 72);
             this.textBoxTopWidth.Name = "textBoxTopWidth";
             this.textBoxTopWidth.Size = new System.Drawing.Size(100, 22);
             this.textBoxTopWidth.TabIndex = 8;
             // 
             // textBoxTopDepth
             // 
-            this.textBoxTopDepth.Location = new System.Drawing.Point(215, 116);
+            this.textBoxTopDepth.Location = new System.Drawing.Point(303, 117);
             this.textBoxTopDepth.Name = "textBoxTopDepth";
             this.textBoxTopDepth.Size = new System.Drawing.Size(100, 22);
             this.textBoxTopDepth.TabIndex = 9;
             // 
             // textBoxTopHeight
             // 
-            this.textBoxTopHeight.Location = new System.Drawing.Point(215, 163);
+            this.textBoxTopHeight.Location = new System.Drawing.Point(303, 164);
             this.textBoxTopHeight.Name = "textBoxTopHeight";
             this.textBoxTopHeight.Size = new System.Drawing.Size(100, 22);
             this.textBoxTopHeight.TabIndex = 10;
             // 
             // textBoxLegsHeight
             // 
-            this.textBoxLegsHeight.Location = new System.Drawing.Point(215, 206);
+            this.textBoxLegsHeight.Location = new System.Drawing.Point(303, 207);
             this.textBoxLegsHeight.Name = "textBoxLegsHeight";
             this.textBoxLegsHeight.Size = new System.Drawing.Size(100, 22);
             this.textBoxLegsHeight.TabIndex = 11;
             // 
             // textBoxTableHeight
             // 
-            this.textBoxTableHeight.Location = new System.Drawing.Point(215, 249);
+            this.textBoxTableHeight.Location = new System.Drawing.Point(303, 250);
             this.textBoxTableHeight.Name = "textBoxTableHeight";
             this.textBoxTableHeight.Size = new System.Drawing.Size(100, 22);
             this.textBoxTableHeight.TabIndex = 12;
             // 
             // buttonRun
             // 
-            this.buttonRun.Location = new System.Drawing.Point(115, 333);
+            this.buttonRun.Location = new System.Drawing.Point(133, 352);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(140, 47);
             this.buttonRun.TabIndex = 13;
@@ -168,7 +170,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 450);
+            this.ClientSize = new System.Drawing.Size(435, 450);
             this.Controls.Add(this.buttonRun);
             this.Controls.Add(this.textBoxTableHeight);
             this.Controls.Add(this.textBoxLegsHeight);
