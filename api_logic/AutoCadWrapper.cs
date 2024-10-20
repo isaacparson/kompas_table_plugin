@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace api_logic
 {
-    public  class InventorWrapper : IWrapper
+    public  class AutoCadWrapper : IWrapper
     {
         public void CreateRectangle()
         {

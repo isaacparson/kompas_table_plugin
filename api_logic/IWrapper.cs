@@ -9,7 +9,7 @@ namespace api_logic
 	public enum Cad
 	{
 		Kompas,
-		Inventor,
+		AutoCad,
 	}
 
 	public interface IWrapper

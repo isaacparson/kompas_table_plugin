@@ -58,12 +58,11 @@ namespace logic
             params_.TryGetValue(ParamType.TopDepth, out topDepth);
             params_.TryGetValue(ParamType.LegWidth, out legWidth);
 
-            int topArea = topWidth.Value * topDepth.Value;
-            int legsArea = (legWidth.Value * 2 + 200) * (legWidth.Value * 2 + 200);
+            int twoLegsWidth = legWidth.Value * 2 + 200;
 
             var incorrect = new List<DependentParameters>();
 
-            if (topArea < legsArea)
+            if (topWidth.Value < twoLegsWidth || topDepth.Value < twoLegsWidth)
             {
                 incorrect.Add(DependentParameters.TopAndLegsArea);
             }

@@ -20,9 +20,9 @@ namespace logic
                         _wrapper = new KompasWrapper();
                     }
                     break;
-                case Cad.Inventor:
+                case Cad.AutoCad:
                     {
-                        _wrapper = new InventorWrapper();
+                        _wrapper = new AutoCadWrapper();
                     }
                     break;
                 default:

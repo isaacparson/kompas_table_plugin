@@ -55,47 +55,48 @@ namespace plugin
             }
         }
 
-        public bool ValidateBasic(Parameter topWidth, Parameter topDepth, Parameter topHeight, Parameter legsHeight, Parameter tableHeight )
+        private bool ValidateBasic(Parameter topWidth, Parameter topDepth, Parameter topHeight, Parameter legsHeight, Parameter tableHeight )
         {
+            bool validated = true;
             if (topWidth.Value < topWidth.MinValue || topWidth.Value > topWidth.MaxValue)
             {
                 labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от " + topWidth.MinValue + " до " + topWidth.MaxValue + "мм\n";
                 labelError.BackColor = Color.LightPink;
                 textBoxTopWidth.BackColor = Color.LightPink;
-                return false;
+                validated = false;
             }
             if (topDepth.Value < topDepth.MinValue || topDepth.Value > topDepth.MaxValue)
             {
                 labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон от " + topDepth.MinValue + " до " + topDepth.MaxValue + "мм\n";
                 labelError.BackColor = Color.LightPink;
                 textBoxTopDepth.BackColor = Color.LightPink;
-                return false;
+                validated = false;
             }
             if (topHeight.Value < topHeight.MinValue || topHeight.Value > topHeight.MaxValue)
             {
                 labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон от " + topHeight.MinValue + " до " + topHeight.MaxValue + "мм\n";
                 labelError.BackColor = Color.LightPink;
                 textBoxTopHeight.BackColor = Color.LightPink;
-                return false;
+                validated = false;
             }
             if (legsHeight.Value < legsHeight.MinValue || legsHeight.Value > legsHeight.MaxValue)
             {
                 labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон от " + legsHeight.MinValue + " до " + legsHeight.MaxValue + "мм\n";
                 labelError.BackColor = Color.LightPink;
                 textBoxLegsWidth.BackColor = Color.LightPink;
-                return false;
+                validated = false;
             }
             if (tableHeight.Value < tableHeight.MinValue || tableHeight.Value > tableHeight.MaxValue)
             {
                 labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон от " + tableHeight.MinValue + " до " + tableHeight.MaxValue + "мм\n";
                 labelError.BackColor = Color.LightPink;
                 textBoxTableHeight.BackColor = Color.LightPink;
-                return false;
+                validated = false;
             }
-            return true;
+            return validated;
         }
 
-        bool ValidateDependent(Parameters parameters)
+        private bool ValidateDependent(Parameters parameters)
         {
             var incorrectParams = parameters.Validate();
             if (incorrectParams.Count > 0)
