@@ -6,11 +6,27 @@ using System.Threading.Tasks;
 
 namespace logic
 {
-    internal class Parameter
+    public class Parameter
     {
         public int value_;
-        public int maxValue_;
-        public int minValue_;
+        public readonly int maxValue_;
+        public readonly int minValue_;
+
+        public int MaxValue
+        {
+            get
+            {
+                return maxValue_;
+            }
+        }
+
+        public int MinValue
+        {
+            get
+            {
+                return minValue_;
+            }
+        }
 
         public int Value
         {
@@ -20,10 +36,6 @@ namespace logic
             }
             set 
             {
-                if (!Validate(value))
-                {
-                    throw new Exception();
-                }
                 value_ = value;
             }
         }
@@ -34,11 +46,5 @@ namespace logic
             minValue_ = minValue;
             Value = value;
         }
-
-        public bool Validate(int value)
-        {
-            return value < maxValue_ && value > minValue_;
-        }
-
     }
 }

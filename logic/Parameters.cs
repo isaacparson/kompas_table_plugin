@@ -8,7 +8,7 @@ namespace logic
 {
     using Dict = Dictionary<ParamType, Parameter>;
 
-    enum ParamType
+    public enum ParamType
     {
         TopWidth,
         TopDepth,
@@ -18,7 +18,12 @@ namespace logic
         TableHeight,
     }
 
-    internal class Parameters
+    public enum DependentParameters
+    {    
+        TopAndLegsArea,
+    }
+
+    public class Parameters
     {
         public Dict params_;
 
@@ -39,63 +44,31 @@ namespace logic
             Params = parameters;
         }
 
-        public void Validate(ParamType type, Parameter parameter )
+        /// <summary>
+        /// Возвращает пустой список, если валидация прошла успешно. 
+        /// Иначе возвращает список зависисмых параметров, которые имеют неверные значения.
+        /// </summary>
+        /// <returns></returns>
+        public List<DependentParameters> Validate()
         {
-            var value = parameter.Value;
+            Parameter topWidth;
+            Parameter topDepth;
+            Parameter legWidth;
+            params_.TryGetValue(ParamType.TopWidth, out topWidth);
+            params_.TryGetValue(ParamType.TopDepth, out topDepth);
+            params_.TryGetValue(ParamType.LegWidth, out legWidth);
 
-            switch (type)
+            int topArea = topWidth.Value * topDepth.Value;
+            int legsArea = (legWidth.Value * 2 + 200) * (legWidth.Value * 2 + 200);
+
+            var incorrect = new List<DependentParameters>();
+
+            if (topArea < legsArea)
             {
-                case ParamType.TopWidth:
-                    {
-                        if (value < 500 && value > 5000)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                    break;
-                case ParamType.TopDepth:
-                    {
-                        if (value < 500 && value > 5000)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                    break;
-                case ParamType.TopHeight:
-                    {
-                        if (value < 16 && value > 100)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                    break;
-                case ParamType.LegWidth:
-                    {
-                        if (value < 20 && value > 200)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                    break;
-                case ParamType.LegDepth:
-                    {
-                        if (value < 20 && value > 200)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                    break;
-                case ParamType.TableHeight:
-                    {
-                        if (value < 500 && value > 1400)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                    break;
-                default:
-                    break;
+                incorrect.Add(DependentParameters.TopAndLegsArea);
             }
+
+            return incorrect;
         }
     }
 }
