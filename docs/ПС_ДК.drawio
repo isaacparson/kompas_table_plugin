@@ -120,13 +120,13 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="PoCXjNP7LagrxDgm13DA-55" value="MainForm" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontSize=14;" parent="1" vertex="1">
-          <mxGeometry x="-370" y="-400" width="280" height="132" as="geometry" />
+          <mxGeometry x="-405" y="-400" width="350" height="130" as="geometry" />
         </mxCell>
         <mxCell id="PoCXjNP7LagrxDgm13DA-56" value="- _builder: Builder" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=14;" parent="PoCXjNP7LagrxDgm13DA-55" vertex="1">
-          <mxGeometry y="26" width="280" height="26" as="geometry" />
+          <mxGeometry y="26" width="350" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="PoCXjNP7LagrxDgm13DA-58" value="- ButtonRun_Click(object, EventArgs): void&lt;br&gt;- ProcessValidation(Parameters): bool&lt;div&gt;- BuildModel(): void&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;fontSize=14;" parent="PoCXjNP7LagrxDgm13DA-55" vertex="1">
-          <mxGeometry y="52" width="280" height="80" as="geometry" />
+        <mxCell id="PoCXjNP7LagrxDgm13DA-58" value="- ButtonRun_Click(object, EventArgs): void&lt;br&gt;- ProcessValidation(List&amp;lt;IncorrectParameters&amp;gt;): bool&lt;div&gt;- BuildModel(): void&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;fontSize=14;" parent="PoCXjNP7LagrxDgm13DA-55" vertex="1">
+          <mxGeometry y="52" width="350" height="78" as="geometry" />
         </mxCell>
         <mxCell id="PoCXjNP7LagrxDgm13DA-64" value="1" style="text;align=center;fontStyle=1;verticalAlign=middle;spacingLeft=3;spacingRight=3;strokeColor=none;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="-250" y="-50" width="80" height="26" as="geometry" />
