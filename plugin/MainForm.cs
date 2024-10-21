@@ -37,8 +37,6 @@ namespace plugin
             var legsWidth = new Parameter(200, 20, int.Parse(textBoxLegsWidth.Text));
             var tableHeight = new Parameter(1400, 500, int.Parse(textBoxTableHeight.Text));
 
-            var isValidatedBasic = ValidateBasic(topWidth, topDepth, topHeight, legsWidth, tableHeight);
-
             var dict = new Dictionary<ParamType, Parameter>();
             dict.Add(ParamType.TopWidth, topWidth);
             dict.Add(ParamType.TopDepth, topDepth);
@@ -47,9 +45,9 @@ namespace plugin
             dict.Add(ParamType.TableHeight, tableHeight);
 
             var parameters = new Parameters(dict);
-            var isValidatedDependent = ValidateDependent(parameters);
+            var isValidated = ValidateDependent(parameters);
 
-            if (isValidatedBasic && isValidatedDependent)
+            if (isValidated)
             {
                 BuildModel();
             }
@@ -96,7 +94,7 @@ namespace plugin
             return validated;
         }
 
-        private bool ValidateDependent(Parameters parameters)
+        private bool Validate(Parameters parameters)
         {
             var incorrectParams = parameters.Validate();
             if (incorrectParams.Count > 0)
