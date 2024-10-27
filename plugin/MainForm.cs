@@ -9,11 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using logic;
+using api_logic;
 
 namespace plugin
 {
     public partial class MainForm : Form
     {
+        private Builder _builder;
+
         public MainForm()
         {
             InitializeComponent();
@@ -44,65 +47,58 @@ namespace plugin
             dict.Add(ParamType.LegWidth, legsWidth);
             dict.Add(ParamType.TableHeight, tableHeight);
 
-            var parameters = new Parameters(dict);
-            var isValidated = ValidateDependent(parameters);
+            var parameters = new Parameters();
+            var incorrect = parameters.SetParameters(dict);
 
-            if (isValidated)
+            if (incorrect.Count == 0)
             {
-                BuildModel();
+                BuildModel(parameters);
+            }
+            else
+            {
+                PrintErrors(incorrect);
             }
         }
 
-        private bool ValidateBasic(Parameter topWidth, Parameter topDepth, Parameter topHeight, Parameter legsHeight, Parameter tableHeight )
+        private void PrintErrors(List<IncorrectParameters> incorrect)
         {
-            bool validated = true;
-            if (topWidth.Value < topWidth.MinValue || topWidth.Value > topWidth.MaxValue)
-            {
-                labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от " + topWidth.MinValue + " до " + topWidth.MaxValue + "мм\n";
-                labelError.BackColor = Color.LightPink;
-                textBoxTopWidth.BackColor = Color.LightPink;
-                validated = false;
-            }
-            if (topDepth.Value < topDepth.MinValue || topDepth.Value > topDepth.MaxValue)
-            {
-                labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон от " + topDepth.MinValue + " до " + topDepth.MaxValue + "мм\n";
-                labelError.BackColor = Color.LightPink;
-                textBoxTopDepth.BackColor = Color.LightPink;
-                validated = false;
-            }
-            if (topHeight.Value < topHeight.MinValue || topHeight.Value > topHeight.MaxValue)
-            {
-                labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон от " + topHeight.MinValue + " до " + topHeight.MaxValue + "мм\n";
-                labelError.BackColor = Color.LightPink;
-                textBoxTopHeight.BackColor = Color.LightPink;
-                validated = false;
-            }
-            if (legsHeight.Value < legsHeight.MinValue || legsHeight.Value > legsHeight.MaxValue)
-            {
-                labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон от " + legsHeight.MinValue + " до " + legsHeight.MaxValue + "мм\n";
-                labelError.BackColor = Color.LightPink;
-                textBoxLegsWidth.BackColor = Color.LightPink;
-                validated = false;
-            }
-            if (tableHeight.Value < tableHeight.MinValue || tableHeight.Value > tableHeight.MaxValue)
-            {
-                labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон от " + tableHeight.MinValue + " до " + tableHeight.MaxValue + "мм\n";
-                labelError.BackColor = Color.LightPink;
-                textBoxTableHeight.BackColor = Color.LightPink;
-                validated = false;
-            }
-            return validated;
-        }
+            labelError.Text = "";
+            textBoxTopWidth.BackColor = Color.White;
+            textBoxTopDepth.BackColor = Color.White;
+            textBoxTopHeight.BackColor = Color.White;
+            textBoxLegsWidth.BackColor = Color.White;
+            textBoxTableHeight.BackColor = Color.White;
 
-        private bool Validate(Parameters parameters)
-        {
-            var incorrectParams = parameters.Validate();
-            if (incorrectParams.Count > 0)
+            foreach (var param in incorrect)
             {
-                foreach (var param in incorrectParams)
+                switch (param)
                 {
-                    if (param.Equals(DependentParameters.TopAndLegsArea))
-                    {
+                    case IncorrectParameters.TopWidthIncorrect:
+                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от 500 до 5000мм\n";
+                        labelError.BackColor = Color.LightPink;
+                        textBoxTopWidth.BackColor = Color.LightPink;
+                        break;
+                    case IncorrectParameters.TopDepthIncorrect:
+                        labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон от 500 до 5000мм\n";
+                        labelError.BackColor = Color.LightPink;
+                        textBoxTopDepth.BackColor = Color.LightPink;
+                        break;
+                    case IncorrectParameters.TopHeightIncorrect:
+                        labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон от 16 до 100мм\n";
+                        labelError.BackColor = Color.LightPink;
+                        textBoxTopHeight.BackColor = Color.LightPink;
+                        break;
+                    case IncorrectParameters.LegWidthIncorrect:
+                        labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон от 20 до 200мм\n";
+                        labelError.BackColor = Color.LightPink;
+                        textBoxLegsWidth.BackColor = Color.LightPink;
+                        break;
+                    case IncorrectParameters.TableHeightIncorrect:
+                        labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон от 500 до 1400мм\n";
+                        labelError.BackColor = Color.LightPink;
+                        textBoxTableHeight.BackColor = Color.LightPink;
+                        break;
+                    case IncorrectParameters.TopAndLegsAreaIncorrect:
                         labelError.Text += "Ошибка: связанные параметры \"ширина столешницы, глубина столешницы и ширина ножек\"\n" +
                                            "    имеют недопустимые параметры:\n" +
                                            "    площадь столешницы должна быть больше площади сечения ножек";
@@ -110,16 +106,24 @@ namespace plugin
                         textBoxTopWidth.BackColor = Color.LightPink;
                         textBoxTopDepth.BackColor = Color.LightPink;
                         textBoxLegsWidth.BackColor = Color.LightPink;
-                    }
+                        break;
                 }
-                return false;
             }
-            return true;
         }
 
-        void BuildModel()
+        void BuildModel(Parameters parameters)
         {
-
+            Cad cad;
+            if (radioButtonKompas.Checked)
+            {
+                cad = Cad.Kompas;
+            }
+            else
+            {
+                cad = Cad.AutoCad;
+            }
+            _builder = new Builder(parameters, cad);
+            _builder.Build();
         }
     }
 }

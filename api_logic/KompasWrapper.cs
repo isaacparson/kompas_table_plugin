@@ -4,6 +4,10 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using KompasAPI7;
+using Kompas6API5;
+using System.Runtime.InteropServices;
+using Kompas6Constants;
 
 namespace api_logic
 {
@@ -31,7 +35,9 @@ namespace api_logic
 
         public void OpenCad()
         {
-
+            IApplication application = (IApplication)Marshal.GetActiveObject("KOMPAS.Application.7");
+            application.Documents.Add(DocumentTypeEnum.ksDocumentPart);
+            var part = application.ActiveDocument;
         }
     }
 }

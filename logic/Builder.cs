@@ -8,48 +8,39 @@ using api_logic;
 
 namespace logic
 {
-    internal class Builder
+    public class Builder
     {
         private IWrapper _wrapper;
-        void Build(Parameters parameters, Cad cad)
+        private Parameters _parameters;
+
+        public Builder(Parameters parameters, Cad cad)
         {
-            switch (cad)
-            {
-                case Cad.Kompas:
-                    {
-                        _wrapper = new KompasWrapper();
-                    }
-                    break;
-                case Cad.AutoCad:
-                    {
-                        _wrapper = new AutoCadWrapper();
-                    }
-                    break;
-                default:
-                    break;
-            }
-            Prepare();
-            BuildTop();
-            BuildLegs();
+            WrapperFactory factroy = new WrapperFactory();
+            _wrapper = factroy.MakeWrapper(cad);
+            _parameters = parameters;
         }
 
-        void Prepare()
+        public void Build()
+        {
+            Prepare();
+            //BuildTop();
+            //BuildLegs();
+        }
+
+        private void Prepare()
         {
             _wrapper.OpenCad();
         }
 
-        void BuildTop()
+        private void BuildTop()
         {
             _wrapper.CreateRectangle();
             _wrapper.Extrude();
         }
 
-        void BuildLegs()
+        private void BuildLegs()
         {
             // 4 вызова, может сделать массивом или отражением?
         }
-
-
-
     }
 }

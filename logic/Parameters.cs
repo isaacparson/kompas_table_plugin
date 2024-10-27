@@ -31,42 +31,56 @@ namespace logic
 
     public class Parameters
     {
-        public Dict params_;
+        public Dict _parameters;
 
         public Dict Params
         {
             get 
             { 
-                return params_; 
+                return _parameters; 
             }
             set 
-            { 
-                params_ = value; 
+            {
+                _parameters = value; 
             }
         }
 
-        public Parameters(Dict parameters)
+        public Parameters()
         {
-            Params = parameters;
+        }
+
+        public List<IncorrectParameters> SetParameters(Dict parameters)
+        {
+            var incorrect = Validate(parameters);
+            if (incorrect.Count == 0)
+            {
+                _parameters = parameters;
+            }
+            return incorrect;
+        }
+
+        public Dict GetParameters()
+        {
+            return _parameters;
         }
 
         /// <summary>
         /// Возвращает пустой список, если валидация прошла успешно. 
-        /// Иначе возвращает список зависисмых параметров, которые имеют неверные значения.
+        /// Иначе возвращает список параметров, которые имеют неверные значения.
         /// </summary>
         /// <returns></returns>
-        public List<IncorrectParameters> Validate()
+        private List<IncorrectParameters> Validate(Dict parameters)
         {
             Parameter topWidth;
             Parameter topDepth;
             Parameter topHeight;
             Parameter legWidth;
             Parameter tableHeight;
-            params_.TryGetValue(ParamType.TopWidth, out topWidth);
-            params_.TryGetValue(ParamType.TopDepth, out topDepth);
-            params_.TryGetValue(ParamType.TopHeight, out topHeight);   
-            params_.TryGetValue(ParamType.LegWidth, out legWidth);
-            params_.TryGetValue(ParamType.TableHeight, out tableHeight);
+            parameters.TryGetValue(ParamType.TopWidth, out topWidth);
+            parameters.TryGetValue(ParamType.TopDepth, out topDepth);
+            parameters.TryGetValue(ParamType.TopHeight, out topHeight);   
+            parameters.TryGetValue(ParamType.LegWidth, out legWidth);
+            parameters.TryGetValue(ParamType.TableHeight, out tableHeight);
 
             int twoLegsWidth = legWidth.Value * 2 + 200;
 
