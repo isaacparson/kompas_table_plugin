@@ -1,4 +1,5 @@
-﻿using System;
+﻿using logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +9,27 @@ namespace api_logic
 {
     public  class AutoCadWrapper : IWrapper
     {
-        public void CreateRectangle()
+        private void CreateRectangle()
         {
             throw new NotImplementedException();
         }
 
-        public void CreateSketch()
+        private void CreateSketch()
         {
             throw new NotImplementedException();
         }
 
-        public void Extrude()
+        private void Extrude()
         {
             throw new NotImplementedException();
         }
 
         public void OpenCad()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreatePart(Parameters parameters)
         {
             throw new NotImplementedException();
         }

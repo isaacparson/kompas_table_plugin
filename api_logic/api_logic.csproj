@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="logic">
+      <HintPath>..\plugin\bin\Debug\logic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoCadWrapper.cs" />
+    <Compile Include="Builder.cs" />
     <Compile Include="IWrapper.cs" />
     <Compile Include="KompasWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +63,15 @@
     </COMReference>
     <COMReference Include="Kompas6Constants">
       <Guid>{75C9F5D0-B5B8-4526-8681-9903C567D2ED}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Kompas6Constants3D">
+      <Guid>{2CAF168C-7961-4B90-9DA2-701419BEEFE3}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>

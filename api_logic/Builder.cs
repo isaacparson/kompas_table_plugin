@@ -22,25 +22,8 @@ namespace logic
 
         public void Build()
         {
-            Prepare();
-            //BuildTop();
-            //BuildLegs();
-        }
-
-        private void Prepare()
-        {
             _wrapper.OpenCad();
-        }
-
-        private void BuildTop()
-        {
-            _wrapper.CreateRectangle();
-            _wrapper.Extrude();
-        }
-
-        private void BuildLegs()
-        {
-            // 4 вызова, может сделать массивом или отражением?
+            _wrapper.CreatePart(_parameters);
         }
     }
 }
