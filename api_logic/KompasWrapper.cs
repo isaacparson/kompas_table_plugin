@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using Kompas6Constants;
 using Kompas6Constants3D;
 using logic;
+using System.Diagnostics;
 
 namespace api_logic
 {
@@ -22,14 +23,33 @@ namespace api_logic
 
         }
 
-        private void NewRectangle()
+        private void NewRectangle(IDrawingContainer drawingContainer, double x, double y, int width, int height)
         {
-            
+            IRectangle rectangle = drawingContainer.Rectangles.Add();
+            rectangle.Style = (int)Kompas6Constants.ksCurveStyleEnum.ksCSNormal;
+            rectangle.X = x;
+            rectangle.Y = y;
+            rectangle.Width = width;
+            rectangle.Height = height;
+            rectangle.Update();
         }
 
-        private void Extrude()
+        private void Extrude(IModelContainer modelContainer, ISketch profile, int height, String name)
         {
-            
+            IExtrusions extrusions = modelContainer.Extrusions;
+            IExtrusion extrusion = extrusions.Add(Kompas6Constants3D.ksObj3dTypeEnum.o3d_bossExtrusion);
+            extrusion.Direction = Kompas6Constants3D.ksDirectionTypeEnum.dtNormal;
+            extrusion.Name = "Элемент выдавливания: " + name;
+            extrusion.Hidden = false;
+            extrusion.ExtrusionType[true] = Kompas6Constants3D.ksEndTypeEnum.etBlind;
+            extrusion.DraftOutward[true] = false;
+            extrusion.DraftValue[true] = 0.0;
+            extrusion.Depth[true] = height;
+
+            IExtrusion1 extrusion1 = (IExtrusion1)extrusion;
+            extrusion1.Profile = profile;
+            extrusion1.DirectionObject = profile;
+            extrusion.Update();
         }
 
         public void CreatePart(Parameters parameters)
@@ -61,31 +81,11 @@ namespace api_logic
                 IView view = viewsAndLayersManager.Views.ActiveView;
                 IDrawingContainer drawingContainer = (IDrawingContainer)view;
 
-                IRectangle rectangle = drawingContainer.Rectangles.Add();
-                rectangle.Style = (int)Kompas6Constants.ksCurveStyleEnum.ksCSNormal;
-
-                rectangle.Width = topWidth.Value;
-                rectangle.Height = topDepth.Value;
-                rectangle.Update();
+                NewRectangle(drawingContainer, 0, 0, topWidth.Value, topDepth.Value);
                 sketch.EndEdit();
 
-                //объект модели "Операция выдавливания"
-                IExtrusions extrusions = modelContainer.Extrusions;
-                IExtrusion extrusion = extrusions.Add(Kompas6Constants3D.ksObj3dTypeEnum.o3d_bossExtrusion);
-                extrusion.Direction = Kompas6Constants3D.ksDirectionTypeEnum.dtNormal;
-                extrusion.Name = "Элемент выдавливания: столешница";
-                extrusion.Hidden = false;
-                extrusion.ExtrusionType[true] = Kompas6Constants3D.ksEndTypeEnum.etBlind;
-                extrusion.DraftOutward[true] = false;
-                extrusion.DraftValue[true] = 0.0;
-                extrusion.Depth[true] = topHeight.Value;
-
-                IExtrusion1 extrusion1 = (IExtrusion1)extrusion;
-                extrusion1.Profile = sketch;// modelContainer.Objects[Kompas6Constants3D.ksObj3dTypeEnum.o3d_sketch][0];
-                extrusion1.DirectionObject = sketch;// modelContainer.Objects[Kompas6Constants3D.ksObj3dTypeEnum.o3d_sketch][0];
-                extrusion.Update();
+                Extrude(modelContainer, sketch, topHeight.Value, "Столешница");
             }
-            // \Столешница
 
             // Ножки
             Parameter legWidth;
@@ -106,53 +106,17 @@ namespace api_logic
                 IView view = viewsAndLayersManager.Views.ActiveView;
                 IDrawingContainer drawingContainer = (IDrawingContainer)view;
 
-                IRectangle rectangle1 = drawingContainer.Rectangles.Add();
-                rectangle1.Style = (int)Kompas6Constants.ksCurveStyleEnum.ksCSNormal;
-                rectangle1.Width = legWidth.Value;
-                rectangle1.Height = rectangle1.Width;
-                rectangle1.Update();
-
-                IRectangle rectangle2 = drawingContainer.Rectangles.Add();
-                rectangle2.Style = (int)Kompas6Constants.ksCurveStyleEnum.ksCSNormal;
-                rectangle2.X = topWidth.Value - legWidth.Value;
-                rectangle2.Width = legWidth.Value;
-                rectangle2.Height = rectangle2.Width;
-                rectangle2.Update();
-
-                IRectangle rectangle3 = drawingContainer.Rectangles.Add();
-                rectangle3.Style = (int)Kompas6Constants.ksCurveStyleEnum.ksCSNormal;
-                rectangle3.Y = topDepth.Value - legWidth.Value;
-                rectangle3.Width = legWidth.Value;
-                rectangle3.Height = rectangle3.Width;
-                rectangle3.Update();
-
-                IRectangle rectangle4 = drawingContainer.Rectangles.Add();
-                rectangle4.Style = (int)Kompas6Constants.ksCurveStyleEnum.ksCSNormal;
-                rectangle4.X = topWidth.Value - legWidth.Value;
-                rectangle4.Y = topDepth.Value - legWidth.Value;
-                rectangle4.Width = legWidth.Value;
-                rectangle4.Height = rectangle4.Width;
-                rectangle4.Update();
-
+                NewRectangle(drawingContainer, 0, 0, legWidth.Value, legWidth.Value);
+                NewRectangle(drawingContainer, topWidth.Value - legWidth.Value, 0, legWidth.Value, legWidth.Value);
+                NewRectangle(drawingContainer, 0, topDepth.Value - legWidth.Value, legWidth.Value, legWidth.Value);
+                NewRectangle(drawingContainer, 
+                             topWidth.Value - legWidth.Value, 
+                             topDepth.Value - legWidth.Value, 
+                             legWidth.Value, 
+                             legWidth.Value);
                 sketch.EndEdit();
 
-                //объект модели "Операция выдавливания"
-                IExtrusions extrusions = modelContainer.Extrusions;
-                IExtrusion extrusion = extrusions.Add(Kompas6Constants3D.ksObj3dTypeEnum.o3d_bossExtrusion);
-                extrusion.Direction = Kompas6Constants3D.ksDirectionTypeEnum.dtNormal;
-                extrusion.Name = "Элемент выдавливания: ножки";
-                extrusion.Hidden = false;
-                extrusion.ExtrusionType[true] = Kompas6Constants3D.ksEndTypeEnum.etBlind;
-                extrusion.DraftOutward[true] = false;
-                extrusion.DraftValue[true] = 0.0;
-                extrusion.Depth[true] = -(tableHeight.Value - topHeight.Value);
-                extrusion.Direction = ksDirectionTypeEnum.dtNormal;
-
-                IExtrusion1 extrusion1 = (IExtrusion1)extrusion;
-                extrusion1.Profile = sketch;
-
-                extrusion.Update();
-
+                Extrude(modelContainer, sketch, -(tableHeight.Value - topHeight.Value), "Ножки");
             }
         }
 
