@@ -10,13 +10,11 @@ namespace api_logic
     {
         public IWrapper MakeWrapper(Cad cad)
         {
-            if (cad == Cad.Kompas)
+            switch (cad)
             {
-                return new KompasWrapper();
-            }
-            else
-            {
-                return new AutoCadWrapper();
+                case Cad.Kompas: return new KompasWrapper();
+                case Cad.AutoCad: return new AutoCadWrapper();
+                default: return new KompasWrapper();
             }
         }
     }

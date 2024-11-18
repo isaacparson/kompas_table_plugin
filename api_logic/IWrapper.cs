@@ -18,7 +18,12 @@ namespace api_logic
 	{
 		void OpenCad();
 
-		void CreatePart(Parameters parameters);
+		void CreatePart();
 
-	}
+		void NewRectangle(double x, double y, int width, int height, string name);
+
+		void Extrude(int height, string name);
+
+
+    }
 }

@@ -29,7 +29,17 @@ namespace api_logic
             throw new NotImplementedException();
         }
 
-        public void CreatePart(Parameters parameters)
+        public void CreatePart()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NewRectangle(double x, double y, int width, int height, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Extrude(int height, string name)
         {
             throw new NotImplementedException();
         }
