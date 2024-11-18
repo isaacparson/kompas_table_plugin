@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="logic">
-      <HintPath>..\plugin\bin\Debug\logic.dll</HintPath>
+      <HintPath>..\logic\bin\Debug\logic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
