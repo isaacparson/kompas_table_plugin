@@ -71,12 +71,11 @@ namespace logic
         /// <returns></returns>
         private List<IncorrectParameters> Validate(Dict parameters)
         {
-            Parameter topWidth;
             Parameter topDepth;
             Parameter topHeight;
             Parameter legWidth;
             Parameter tableHeight;
-            parameters.TryGetValue(ParamType.TopWidth, out topWidth);
+            parameters.TryGetValue(ParamType.TopWidth, out Parameter topWidth);
             parameters.TryGetValue(ParamType.TopDepth, out topDepth);
             parameters.TryGetValue(ParamType.TopHeight, out topHeight);   
             parameters.TryGetValue(ParamType.LegWidth, out legWidth);
