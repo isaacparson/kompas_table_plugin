@@ -125,5 +125,10 @@ namespace plugin
             _builder = new Builder(parameters, cad);
             _builder.Build();
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

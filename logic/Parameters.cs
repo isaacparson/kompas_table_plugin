@@ -8,27 +8,6 @@ namespace logic
 {
     using Dict = Dictionary<ParamType, Parameter>;
 
-    public enum ParamType
-    {
-        TopWidth,
-        TopDepth,
-        TopHeight,
-        LegWidth,
-        LegDepth,
-        TableHeight,
-    }
-
-    public enum IncorrectParameters
-    {    
-        TopWidthIncorrect,
-        TopDepthIncorrect,
-        TopHeightIncorrect,
-        LegWidthIncorrect,
-        LegDepthIncorrect,
-        TableHeightIncorrect,
-        TopAndLegsAreaIncorrect,
-    }
-
     public class Parameters
     {
         public Dict _parameters;
@@ -71,15 +50,11 @@ namespace logic
         /// <returns></returns>
         private List<IncorrectParameters> Validate(Dict parameters)
         {
-            Parameter topDepth;
-            Parameter topHeight;
-            Parameter legWidth;
-            Parameter tableHeight;
             parameters.TryGetValue(ParamType.TopWidth, out Parameter topWidth);
-            parameters.TryGetValue(ParamType.TopDepth, out topDepth);
-            parameters.TryGetValue(ParamType.TopHeight, out topHeight);   
-            parameters.TryGetValue(ParamType.LegWidth, out legWidth);
-            parameters.TryGetValue(ParamType.TableHeight, out tableHeight);
+            parameters.TryGetValue(ParamType.TopDepth, out Parameter topDepth);
+            parameters.TryGetValue(ParamType.TopHeight, out Parameter topHeight);   
+            parameters.TryGetValue(ParamType.LegWidth, out Parameter legWidth);
+            parameters.TryGetValue(ParamType.TableHeight, out Parameter tableHeight);
 
             int twoLegsWidth = legWidth.Value * 2 + 200;
 
