@@ -35,38 +35,38 @@ namespace logic
             double originX = 0;
             double originY = 0;
 
-            string topName = "Столешница";
+            string topName = "Top";
             _wrapper.NewRectangle(originX, originY, topWidth.Value, topDepth.Value, topName);
-            _wrapper.Extrude(topHeight.Value, topName);
+            _wrapper.Extrude(topHeight.Value, topName, true);
 
-            string[] legsNames = { "Ножка1", "Ножка2", "Ножка3", "Ножка4" };
-            _wrapper.NewRectangle(originX, 
-                                  originY, 
-                                  legWidth.Value, 
+            string[] legsNames = { "Leg1", "Leg2", "Leg3", "Leg4" };
+            _wrapper.NewRectangle(originX,
+                                  originY,
+                                  legWidth.Value,
                                   legWidth.Value,
                                   legsNames[0]);
-            _wrapper.Extrude(-legHeight, legsNames[0]);
+            _wrapper.Extrude(legHeight, legsNames[0], false);
 
-            _wrapper.NewRectangle(topWidth.Value - legWidth.Value, 
-                                  originY, 
-                                  legWidth.Value, 
+            _wrapper.NewRectangle(topWidth.Value - legWidth.Value,
+                                  originY,
+                                  legWidth.Value,
                                   legWidth.Value,
                                   legsNames[1]);
-            _wrapper.Extrude(-legHeight, legsNames[1]);
+            _wrapper.Extrude(legHeight, legsNames[1], false);
 
-            _wrapper.NewRectangle(originX, 
-                                  topDepth.Value - legWidth.Value, 
-                                  legWidth.Value, 
+            _wrapper.NewRectangle(originX,
+                                  topDepth.Value - legWidth.Value,
+                                  legWidth.Value,
                                   legWidth.Value,
                                   legsNames[2]);
-            _wrapper.Extrude(-legHeight, legsNames[2]);
+            _wrapper.Extrude(legHeight, legsNames[2], false);
 
-            _wrapper.NewRectangle(topWidth.Value - legWidth.Value, 
-                                  topDepth.Value - legWidth.Value, 
-                                  legWidth.Value, 
+            _wrapper.NewRectangle(topWidth.Value - legWidth.Value,
+                                  topDepth.Value - legWidth.Value,
+                                  legWidth.Value,
                                   legWidth.Value,
                                   legsNames[3]);
-            _wrapper.Extrude(-legHeight, legsNames[3]);
+            _wrapper.Extrude(legHeight, legsNames[3], false);
         }
     }
 }

@@ -42,7 +42,7 @@
             this.buttonRun = new System.Windows.Forms.Button();
             this.labelError = new System.Windows.Forms.Label();
             this.radioButtonKompas = new System.Windows.Forms.RadioButton();
-            this.radioButtonAutoCad = new System.Windows.Forms.RadioButton();
+            this.radioButtonInventor = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // label1
@@ -193,20 +193,20 @@
             this.radioButtonKompas.Text = "Компас";
             this.radioButtonKompas.UseVisualStyleBackColor = true;
             // 
-            // radioButtonAutoCad
+            // radioButtonInventor
             // 
-            this.radioButtonAutoCad.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.radioButtonInventor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonAutoCad.AutoSize = true;
-            this.radioButtonAutoCad.Location = new System.Drawing.Point(233, 14);
-            this.radioButtonAutoCad.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.radioButtonAutoCad.Name = "radioButtonAutoCad";
-            this.radioButtonAutoCad.Size = new System.Drawing.Size(80, 20);
-            this.radioButtonAutoCad.TabIndex = 1;
-            this.radioButtonAutoCad.TabStop = true;
-            this.radioButtonAutoCad.Text = "AutoCad";
-            this.radioButtonAutoCad.UseVisualStyleBackColor = true;
-            this.radioButtonAutoCad.CheckedChanged += new System.EventHandler(this.radioButtonInventor_CheckedChanged);
+            this.radioButtonInventor.AutoSize = true;
+            this.radioButtonInventor.Location = new System.Drawing.Point(233, 14);
+            this.radioButtonInventor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.radioButtonInventor.Name = "radioButtonInventor";
+            this.radioButtonInventor.Size = new System.Drawing.Size(94, 25);
+            this.radioButtonInventor.TabIndex = 1;
+            this.radioButtonInventor.TabStop = true;
+            this.radioButtonInventor.Text = "Inventor";
+            this.radioButtonInventor.UseVisualStyleBackColor = true;
+            this.radioButtonInventor.CheckedChanged += new System.EventHandler(this.radioButtonInventor_CheckedChanged);
             // 
             // MainForm
             // 
@@ -226,7 +226,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.radioButtonAutoCad);
+            this.Controls.Add(this.radioButtonInventor);
             this.Controls.Add(this.radioButtonKompas);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
@@ -252,7 +252,7 @@
         private System.Windows.Forms.Button buttonRun;
         private System.Windows.Forms.Label labelError;
         private System.Windows.Forms.RadioButton radioButtonKompas;
-        private System.Windows.Forms.RadioButton radioButtonAutoCad;
+        private System.Windows.Forms.RadioButton radioButtonInventor;
     }
 }
 

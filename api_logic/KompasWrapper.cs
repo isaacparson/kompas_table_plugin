@@ -48,7 +48,7 @@ namespace api_logic
             _theLastCreatedSketch = sketch;
         }
 
-        public void Extrude(int height, string name)
+        public void Extrude(int height, string name, bool positiveDirection)
         {
             IExtrusions extrusions = _modelContainer.Extrusions;
             IExtrusion extrusion = extrusions.Add(Kompas6Constants3D.ksObj3dTypeEnum.o3d_bossExtrusion);
@@ -58,7 +58,15 @@ namespace api_logic
             extrusion.ExtrusionType[true] = Kompas6Constants3D.ksEndTypeEnum.etBlind;
             extrusion.DraftOutward[true] = false;
             extrusion.DraftValue[true] = 0.0;
-            extrusion.Depth[true] = height;
+            if (positiveDirection)
+            {
+                extrusion.Depth[true] = height;
+            }
+            else
+            {
+                extrusion.Depth[true] = -height;
+            }
+            
 
             IExtrusion1 extrusion1 = (IExtrusion1)extrusion;
             extrusion1.Profile = _theLastCreatedSketch;
