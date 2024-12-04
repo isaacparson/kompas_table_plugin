@@ -80,13 +80,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\api_logic\api_logic.csproj">
+    <ProjectReference Include="..\api_logic\ApiLogic.csproj">
       <Project>{c5cec017-8be1-4703-856b-8529b6fb0f19}</Project>
-      <Name>api_logic</Name>
+      <Name>ApiLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\logic\logic.csproj">
+    <ProjectReference Include="..\logic\Logic.csproj">
       <Project>{7d428b07-0771-4c15-9a3e-92338076da7a}</Project>
-      <Name>logic</Name>
+      <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

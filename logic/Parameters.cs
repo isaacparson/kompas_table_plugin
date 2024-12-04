@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace logic
+namespace Logic
 {
     using Dict = Dictionary<ParamType, Parameter>;
 
@@ -47,7 +47,6 @@ namespace logic
         /// Возвращает пустой список, если валидация прошла успешно. 
         /// Иначе возвращает список параметров, которые имеют неверные значения.
         /// </summary>
-        /// <returns></returns>
         private List<IncorrectParameters> Validate(Dict parameters)
         {
             parameters.TryGetValue(ParamType.TopWidth, out Parameter topWidth);

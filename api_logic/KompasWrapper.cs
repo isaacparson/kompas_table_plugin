@@ -9,10 +9,10 @@ using Kompas6API5;
 using System.Runtime.InteropServices;
 using Kompas6Constants;
 using Kompas6Constants3D;
-using logic;
 using System.Diagnostics;
+using Logic;
 
-namespace api_logic
+namespace ApiLogic
 {
     public class KompasWrapper : IWrapper
     {

@@ -5,9 +5,9 @@ using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using api_logic;
+using Logic;
 
-namespace logic
+namespace ApiLogic
 {
     public class Builder
     {
