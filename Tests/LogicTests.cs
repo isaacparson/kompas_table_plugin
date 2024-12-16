@@ -22,13 +22,13 @@ namespace Tests
         [Test]
         public void ParametersRightTest()
         {
-            var topWidth = new Parameter(5000, 500, 500);
-            var topDepth = new Parameter(5000, 500, 500);
-            var topHeight = new Parameter(100, 16, 20);
-            var legsWidth = new Parameter(200, 20, 20);
-            var tableHeight = new Parameter(1400, 500, 500);
+            int topWidth = 500;
+            int topDepth = 500;
+            int topHeight = 20;
+            int legsWidth = 20;
+            int tableHeight = 500;
 
-            var dict = new Dictionary<ParamType, Parameter>();
+            var dict = new Dictionary<ParamType, int>();
             dict.Add(ParamType.TopWidth, topWidth);
             dict.Add(ParamType.TopDepth, topDepth);
             dict.Add(ParamType.TopHeight, topHeight);
@@ -45,13 +45,13 @@ namespace Tests
         [Test]
         public void ParametersIndependentWrongTest()
         {
-            var topWidth = new Parameter(5000, 500, 500);
-            var wrongTopDepth = new Parameter(5000, 500, 10);
-            var topHeight = new Parameter(100, 16, 20);
-            var legsWidth = new Parameter(200, 20, 20);
-            var tableHeight = new Parameter(1400, 500, 500);
+            int topWidth = 500;
+            int wrongTopDepth = 10;
+            int topHeight = 20;
+            int legsWidth = 20;
+            int tableHeight = 500;
 
-            var dict = new Dictionary<ParamType, Parameter>();
+            var dict = new Dictionary<ParamType, int>();
             dict.Add(ParamType.TopWidth, topWidth);
             dict.Add(ParamType.TopDepth, wrongTopDepth);
             dict.Add(ParamType.TopHeight, topHeight);
@@ -66,13 +66,13 @@ namespace Tests
         [Test]
         public void ParametersDependentWrongTest()
         {
-            var topWidth = new Parameter(5000, 500, 500);
-            var topDepth = new Parameter(5000, 500, 500);
-            var topHeight = new Parameter(100, 16, 20);
-            var legsWidth = new Parameter(200, 20, 200);
-            var tableHeight = new Parameter(1400, 500, 500);
+            int topWidth = 500;
+            int topDepth = 500;
+            int topHeight = 20;
+            int legsWidth = 200;
+            int tableHeight = 500;
 
-            var dict = new Dictionary<ParamType, Parameter>();
+            var dict = new Dictionary<ParamType, int>();
             dict.Add(ParamType.TopWidth, topWidth);
             dict.Add(ParamType.TopDepth, topDepth);
             dict.Add(ParamType.TopHeight, topHeight);

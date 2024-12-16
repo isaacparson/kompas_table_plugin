@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace Logic
+namespace ParametersLogic
 {
-    using Dict = Dictionary<ParamType, Parameter>;
 
     public class Parameters
     {
-        public Dict _parameters;
+        public Dictionary<ParamType, int> _parameters;
 
-        public Dict Params
+        public Dictionary<ParamType, int> Params
         {
             get 
             { 
@@ -24,7 +23,7 @@ namespace Logic
         {
         }
 
-        public List<IncorrectParameters> SetParameters(Dict parameters)
+        public List<IncorrectParameters> SetParameters(Dictionary<ParamType, int> parameters)
         {
             var incorrect = Validate(parameters);
             if (incorrect.Count == 0)
@@ -34,7 +33,7 @@ namespace Logic
             return incorrect;
         }
 
-        public Dict GetParameters()
+        public Dictionary<ParamType, int> GetParameters()
         {
             return _parameters;
         }
@@ -43,39 +42,39 @@ namespace Logic
         /// Возвращает пустой список, если валидация прошла успешно. 
         /// Иначе возвращает список параметров, которые имеют неверные значения.
         /// </summary>
-        private List<IncorrectParameters> Validate(Dict parameters)
+        private List<IncorrectParameters> Validate(Dictionary<ParamType, int> parameters)
         {
-            parameters.TryGetValue(ParamType.TopWidth, out Parameter topWidth);
-            parameters.TryGetValue(ParamType.TopDepth, out Parameter topDepth);
-            parameters.TryGetValue(ParamType.TopHeight, out Parameter topHeight);   
-            parameters.TryGetValue(ParamType.LegWidth, out Parameter legWidth);
-            parameters.TryGetValue(ParamType.TableHeight, out Parameter tableHeight);
+            parameters.TryGetValue(ParamType.TopWidth, out int topWidth);
+            parameters.TryGetValue(ParamType.TopDepth, out int topDepth);
+            parameters.TryGetValue(ParamType.TopHeight, out int topHeight);   
+            parameters.TryGetValue(ParamType.LegWidth, out int legWidth);
+            parameters.TryGetValue(ParamType.TableHeight, out int tableHeight);
 
-            int twoLegsWidth = legWidth.Value * 2 + 200;
+            int twoLegsWidth = legWidth * 2 + 200;
 
             var incorrect = new List<IncorrectParameters>();
 
-            if (topWidth.Value < topWidth.MinValue || topWidth.Value > topWidth.MaxValue)
+            if (topWidth < 500 || topWidth > 5000)
             {
                 incorrect.Add(IncorrectParameters.TopWidthIncorrect);
             }
-            if (topDepth.Value < topDepth.MinValue || topDepth.Value > topDepth.MaxValue)
+            if (topDepth < 500 || topDepth > 5000)
             {
                 incorrect.Add(IncorrectParameters.TopDepthIncorrect);
             }
-            if (topHeight.Value < topHeight.MinValue || topHeight.Value > topHeight.MaxValue)
+            if (topHeight < 16 || topHeight > 100)
             {
                 incorrect.Add(IncorrectParameters.TopHeightIncorrect);
             }
-            if (legWidth.Value < legWidth.MinValue || legWidth.Value > legWidth.MaxValue)
+            if (legWidth < 20 || legWidth > 200)
             {
                 incorrect.Add(IncorrectParameters.LegWidthIncorrect);
             }
-            if (tableHeight.Value < tableHeight.MinValue || tableHeight.Value > tableHeight.MaxValue)
+            if (tableHeight < 500 || tableHeight > 1400)
             {
                 incorrect.Add(IncorrectParameters.TableHeightIncorrect);
             }
-            if (topWidth.Value < twoLegsWidth || topDepth.Value < twoLegsWidth)
+            if (topWidth < twoLegsWidth || topDepth < twoLegsWidth)
             {
                 incorrect.Add(IncorrectParameters.TopAndLegsAreaIncorrect);
             }

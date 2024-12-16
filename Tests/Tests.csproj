@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\api_logic\ApiLogic.csproj" />
-    <ProjectReference Include="..\logic\Logic.csproj" />
+    <ProjectReference Include="..\logic\ParametersLogic.csproj" />
   </ItemGroup>
 
   <ItemGroup>

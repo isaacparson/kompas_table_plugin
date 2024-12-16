@@ -1,4 +1,8 @@
-﻿namespace ApiLogic
+﻿using KompasWrapperLib;
+using InventorWrapperLib;
+using WrapperLib;
+
+namespace ApiLogic
 {
     public class WrapperFactory
     {

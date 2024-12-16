@@ -2,9 +2,9 @@
 using KompasAPI7;
 using Kompas6Constants;
 using Kompas6Constants3D;
-using api_logic;
+using WrapperLib;
 
-namespace ApiLogic
+namespace KompasWrapperLib
 {
     public class KompasWrapper : IWrapper
     {

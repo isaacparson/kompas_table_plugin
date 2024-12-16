@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Logic;
+using ParametersLogic;
 using ApiLogic;
 
 namespace plugin
@@ -34,24 +28,15 @@ namespace plugin
 
         private void buttonRun_Click(object sender, EventArgs e)
         {
-            //TODO: переместить границы на уровень парамтеров
-            //BUG: при вводе не интов сломается
-            var topWidth = new Parameter(5000, 500, int.Parse(textBoxTopWidth.Text));
-            var topDepth = new Parameter(5000, 500, int.Parse(textBoxTopDepth.Text));
-            var topHeight = new Parameter(100, 16, int.Parse(textBoxTopHeight.Text));
-            var legsWidth = new Parameter(200, 20, int.Parse(textBoxLegsWidth.Text));
-            var tableHeight = new Parameter(1400, 500, int.Parse(textBoxTableHeight.Text));
-
-            var dict = new Dictionary<ParamType, Parameter>();
-
-            dict.Add(ParamType.TopWidth, topWidth);
-            dict.Add(ParamType.TopDepth, topDepth);
-            dict.Add(ParamType.TopHeight, topHeight);
-            dict.Add(ParamType.LegWidth, legsWidth);
-            dict.Add(ParamType.TableHeight, tableHeight);
+            var paramList = new Dictionary<ParamType, int>();
+            paramList.Add(ParamType.TopWidth, int.Parse(textBoxTopWidth.Text));
+            paramList.Add(ParamType.TopDepth, int.Parse(textBoxTopDepth.Text));
+            paramList.Add(ParamType.TopHeight, int.Parse(textBoxTopHeight.Text));
+            paramList.Add(ParamType.LegWidth, int.Parse(textBoxLegsWidth.Text));
+            paramList.Add(ParamType.TableHeight, int.Parse(textBoxTableHeight.Text));
 
             var parameters = new Parameters();
-            var incorrect = parameters.SetParameters(dict);
+            var incorrect = parameters.SetParameters(paramList);
 
             if (incorrect.Count == 0)
             {
@@ -60,6 +45,14 @@ namespace plugin
             else
             {
                 PrintErrors(incorrect);
+            }
+        }
+
+        private void TextBox_OnlyDigitKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
 

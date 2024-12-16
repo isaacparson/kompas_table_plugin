@@ -1,4 +1,4 @@
-﻿namespace Logic
+﻿namespace ParametersLogic
 {
     public class Parameter
     {

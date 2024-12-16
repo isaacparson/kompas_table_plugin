@@ -110,6 +110,7 @@
             this.textBoxTopWidth.Name = "textBoxTopWidth";
             this.textBoxTopWidth.Size = new System.Drawing.Size(275, 22);
             this.textBoxTopWidth.TabIndex = 8;
+            this.textBoxTopWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
             // 
             // textBoxTopDepth
             // 
@@ -121,6 +122,7 @@
             this.textBoxTopDepth.Name = "textBoxTopDepth";
             this.textBoxTopDepth.Size = new System.Drawing.Size(275, 22);
             this.textBoxTopDepth.TabIndex = 9;
+            this.textBoxTopDepth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
             // 
             // textBoxTopHeight
             // 
@@ -132,6 +134,7 @@
             this.textBoxTopHeight.Name = "textBoxTopHeight";
             this.textBoxTopHeight.Size = new System.Drawing.Size(275, 22);
             this.textBoxTopHeight.TabIndex = 10;
+            this.textBoxTopHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
             // 
             // textBoxLegsWidth
             // 
@@ -143,6 +146,7 @@
             this.textBoxLegsWidth.Name = "textBoxLegsWidth";
             this.textBoxLegsWidth.Size = new System.Drawing.Size(275, 22);
             this.textBoxLegsWidth.TabIndex = 11;
+            this.textBoxLegsWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
             // 
             // textBoxTableHeight
             // 
@@ -154,6 +158,7 @@
             this.textBoxTableHeight.Name = "textBoxTableHeight";
             this.textBoxTableHeight.Size = new System.Drawing.Size(275, 22);
             this.textBoxTableHeight.TabIndex = 12;
+            this.textBoxTableHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
             // 
             // buttonRun
             // 
@@ -201,7 +206,7 @@
             this.radioButtonInventor.Location = new System.Drawing.Point(233, 14);
             this.radioButtonInventor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButtonInventor.Name = "radioButtonInventor";
-            this.radioButtonInventor.Size = new System.Drawing.Size(94, 25);
+            this.radioButtonInventor.Size = new System.Drawing.Size(75, 20);
             this.radioButtonInventor.TabIndex = 1;
             this.radioButtonInventor.TabStop = true;
             this.radioButtonInventor.Text = "Inventor";

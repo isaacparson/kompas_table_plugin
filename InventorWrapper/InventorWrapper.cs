@@ -1,8 +1,8 @@
 ﻿using System;
 using Inventor;
-using api_logic;
+using WrapperLib;
 
-namespace ApiLogic
+namespace InventorWrapperLib
 {
     public class InventorWrapper : IWrapper
     {
@@ -51,7 +51,7 @@ namespace ApiLogic
 
                 SketchEntitiesEnumerator rectangle = _sketch.SketchLines.AddAsTwoPointRectangle(transGeo.CreatePoint2d(x, y), transGeo.CreatePoint2d(x + width, y + height));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new WrapperNewRectangleException("Rectangle build failed");
             }
@@ -84,7 +84,7 @@ namespace ApiLogic
                 ExtrudeFeature extrude = _partCompDef.Features.ExtrudeFeatures.Add(extrudeDef);
                 extrude.Name = name + " ";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new WrapperExtrudeException("Extrude failed");
             }
