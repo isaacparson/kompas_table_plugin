@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using KompasAPI7;
-using Kompas6API5;
-using System.Runtime.InteropServices;
 using Kompas6Constants;
 using Kompas6Constants3D;
-using System.Diagnostics;
-using Logic;
 using api_logic;
 
 namespace ApiLogic
