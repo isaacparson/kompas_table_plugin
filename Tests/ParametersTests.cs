@@ -1,15 +1,10 @@
-﻿using Logic;
+﻿using ParametersLogic;
 
-namespace Tests
+namespace ParametersLogicTests
 {
     [TestFixture]
-    public class LogicTests
+    public class ParametersTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void ParameterTest()
         {

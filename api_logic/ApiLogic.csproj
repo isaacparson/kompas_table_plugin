@@ -97,6 +97,10 @@
       <Project>{7c433024-dd81-479b-8694-6b946fa0e0ba}</Project>
       <Name>WrapperLib</Name>
     </ProjectReference>
+	  <ProjectReference Include="..\logic\ParametersLogic.csproj">
+		  <Project>{7D428B07-0771-4C15-9A3E-92338076DA7A}</Project>
+		  <Name>ParametersLogic</Name>
+	  </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

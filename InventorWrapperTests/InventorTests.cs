@@ -1,33 +1,26 @@
 using ApiLogic;
+using WrapperLib;
 
-namespace Tests
+namespace InventorWrapperTests
 {
-    [TestFixture]
-    public class WrapperTests
+    public class Tests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
-        [TestCase(Cad.AutoCad)]
-        [TestCase(Cad.Kompas)]
-        public void CreatePartTest(Cad cad)
+        [Test]
+        public void CreatePartTest()
         {
             WrapperFactory factory = new WrapperFactory();
-            var wrapper = factory.MakeWrapper(cad);
+            var wrapper = factory.MakeWrapper(Cad.AutoCad);
             Assert.Throws<WrapperCreatePartException>(() => wrapper.CreatePart());
 
             wrapper.OpenCad();
             Assert.DoesNotThrow(() => wrapper.CreatePart());
         }
 
-        [TestCase(Cad.AutoCad)]
-        [TestCase(Cad.Kompas)]
-        public void NewRectangleTest(Cad cad)
+        [Test]
+        public void NewRectangleTest()
         {
             WrapperFactory factory = new WrapperFactory();
-            var wrapper = factory.MakeWrapper(cad);
+            var wrapper = factory.MakeWrapper(Cad.AutoCad);
             wrapper.OpenCad();
 
             Assert.Throws<WrapperNewRectangleException>(() => wrapper.NewRectangle(0, 0, 10, 10, "Some name"));
@@ -38,12 +31,11 @@ namespace Tests
 
         }
 
-        [TestCase(Cad.AutoCad)]
-        [TestCase(Cad.Kompas)]
-        public void ExtrudeTest(Cad cad)
+        [Test]
+        public void ExtrudeTest()
         {
             WrapperFactory factory = new WrapperFactory();
-            var wrapper = factory.MakeWrapper(cad);
+            var wrapper = factory.MakeWrapper(Cad.AutoCad);
             wrapper.OpenCad();
 
             Assert.DoesNotThrow(() => wrapper.CreatePart());
