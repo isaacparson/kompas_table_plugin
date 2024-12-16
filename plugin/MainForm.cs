@@ -34,6 +34,8 @@ namespace plugin
 
         private void buttonRun_Click(object sender, EventArgs e)
         {
+            //TODO: переместить границы на уровень парамтеров
+            //BUG: при вводе не интов сломается
             var topWidth = new Parameter(5000, 500, int.Parse(textBoxTopWidth.Text));
             var topDepth = new Parameter(5000, 500, int.Parse(textBoxTopDepth.Text));
             var topHeight = new Parameter(100, 16, int.Parse(textBoxTopHeight.Text));
@@ -41,6 +43,7 @@ namespace plugin
             var tableHeight = new Parameter(1400, 500, int.Parse(textBoxTableHeight.Text));
 
             var dict = new Dictionary<ParamType, Parameter>();
+
             dict.Add(ParamType.TopWidth, topWidth);
             dict.Add(ParamType.TopDepth, topDepth);
             dict.Add(ParamType.TopHeight, topHeight);
@@ -113,15 +116,10 @@ namespace plugin
 
         void BuildModel(Parameters parameters)
         {
-            Cad cad;
-            if (radioButtonKompas.Checked)
-            {
-                cad = Cad.Kompas;
-            }
-            else
-            {
-                cad = Cad.AutoCad;
-            }
+            Cad cad = radioButtonKompas.Checked
+                ? Cad.Kompas
+                : Cad.AutoCad;
+
             _builder = new Builder(parameters, cad);
             _builder.Build();
         }
