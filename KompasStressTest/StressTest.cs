@@ -5,12 +5,14 @@ using System.Management;
 using System.CodeDom.Compiler;
 using System.IO;
 
-namespace InventorStressTest
+namespace KompasStressTest
 {
-    internal static class Program
+    internal static class StressTest
     {
         static void Main()
         {
+            double gbytesInKbytes = 0.00000095367;
+
             int topWidth = 1000;
             int topDepth = 500;
             int topHeight = 28;
@@ -27,9 +29,18 @@ namespace InventorStressTest
             var parameters = new Parameters();
             parameters.SetParameters(dict);
 
-            var builder = new Builder(parameters, Cad.AutoCad);
+            var builder = new Builder(parameters, Cad.Kompas);
             var stopWatch = new Stopwatch();
             var count = 0;
+
+            string path = @"..\\..\\..\\..\\docs\\inventor_log.txt";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            File.Create(path).Close();
+
+            StreamWriter streamWriter = new StreamWriter(path);
 
             while (true)
             {
@@ -43,10 +54,11 @@ namespace InventorStressTest
                 stopWatch.Start();
                 builder.Build();
                 stopWatch.Stop();
-                var totalMemory = double.Parse(managementObject["TotalVisibleMemorySize"].ToString()) / 1024 / 1024;
-                var freeMemory = double.Parse(managementObject["FreePhysicalMemory"].ToString()) / 1024 / 1024;
+                var totalMemory = double.Parse(managementObject["TotalVisibleMemorySize"].ToString()) * gbytesInKbytes;
+                var freeMemory = double.Parse(managementObject["FreePhysicalMemory"].ToString()) * gbytesInKbytes;
                 var usedMemory = (totalMemory - freeMemory);
-                Console.WriteLine($"{++count}\t{stopWatch.Elapsed:hh\\:mm\\:ss}\t{usedMemory}");
+                streamWriter.WriteLine($"{++count}\t{stopWatch.Elapsed:hh\\:mm\\:ss}\t{usedMemory}");
+                streamWriter.Flush();
                 stopWatch.Reset();
             }
             {
@@ -56,7 +68,8 @@ namespace InventorStressTest
                 var enumerator = managementObjectCollection.GetEnumerator();
                 enumerator.MoveNext();
                 var managementObject = enumerator.Current;
-                Console.Write($"End {double.Parse(managementObject["TotalVisibleMemorySize"].ToString()) / 1024 / 1024}");
+                streamWriter.Write($"End {double.Parse(managementObject["TotalVisibleMemorySize"].ToString()) * gbytesInKbytes}");
+                streamWriter.Flush();
             }
         }
     }

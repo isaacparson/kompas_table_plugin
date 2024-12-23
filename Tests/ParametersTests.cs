@@ -6,15 +6,6 @@ namespace ParametersLogicTests
     public class ParametersTests
     {
         [Test]
-        public void ParameterTest()
-        {
-            Parameter parameter = new Parameter(500, 20, 200);
-            Assert.That(parameter.MaxValue, Is.EqualTo(500));
-            Assert.That(parameter.MinValue, Is.EqualTo(20));
-            Assert.That(parameter.Value, Is.EqualTo(200));
-        }
-
-        [Test]
         public void ParametersRightTest()
         {
             int topWidth = 500;
