@@ -5,7 +5,7 @@ using System.Management;
 using System.CodeDom.Compiler;
 using System.IO;
 
-namespace KompasStressTest
+namespace InventorStressTest
 {
     internal static class Program
     {
@@ -27,7 +27,7 @@ namespace KompasStressTest
             var parameters = new Parameters();
             parameters.SetParameters(dict);
 
-            var builder = new Builder(parameters, Cad.Kompas);
+            var builder = new Builder(parameters, Cad.AutoCad);
             var stopWatch = new Stopwatch();
             var count = 0;
 
