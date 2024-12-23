@@ -89,5 +89,10 @@ namespace InventorWrapperLib
                 throw new WrapperExtrudeException("Extrude failed");
             }
         }
+
+        public bool IsCadRunning()
+        {
+            return _inventorApp != null;
+        }
     }
 }

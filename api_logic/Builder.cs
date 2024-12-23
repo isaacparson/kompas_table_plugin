@@ -17,7 +17,10 @@ namespace ApiLogic
 
         public void Build()
         {
-            _wrapper.OpenCad();
+            if (!_wrapper.IsCadRunning())
+            {
+                _wrapper.OpenCad();
+            }
             _wrapper.CreatePart();
 
             _parameters.Params.TryGetValue(ParamType.TopWidth, out int topWidth);

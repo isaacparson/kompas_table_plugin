@@ -33,7 +33,7 @@ namespace KompasStressTest
             var stopWatch = new Stopwatch();
             var count = 0;
 
-            string path = @"..\\..\\..\\..\\docs\\inventor_log.txt";
+            string path = @"..\\..\\..\\..\\docs\\kompas_log.txt";
             if (File.Exists(path))
             {
                 File.Delete(path);

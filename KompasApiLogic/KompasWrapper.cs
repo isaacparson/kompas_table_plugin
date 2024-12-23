@@ -118,5 +118,10 @@ namespace KompasWrapperLib
             _part = document3D.TopPart;
             _modelContainer = (IModelContainer)_part;
         }
+
+        public bool IsCadRunning()
+        {
+            return _kompas7 != null;
+        }
     }
 }
