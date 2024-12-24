@@ -28,17 +28,26 @@ namespace plugin
 
         private void buttonRun_Click(object sender, EventArgs e)
         {
+            var voidTextBoxes = AreTextBoxesVoid();
+
             var paramList = new Dictionary<ParamType, int>();
-            paramList.Add(ParamType.TopWidth, int.Parse(textBoxTopWidth.Text));
-            paramList.Add(ParamType.TopDepth, int.Parse(textBoxTopDepth.Text));
-            paramList.Add(ParamType.TopHeight, int.Parse(textBoxTopHeight.Text));
-            paramList.Add(ParamType.LegWidth, int.Parse(textBoxLegsWidth.Text));
-            paramList.Add(ParamType.TableHeight, int.Parse(textBoxTableHeight.Text));
+
+            int.TryParse(textBoxTopWidth.Text, out int topWidth);
+            int.TryParse(textBoxTopDepth.Text, out int topDepth);
+            int.TryParse(textBoxTopHeight.Text, out int topHeight);
+            int.TryParse(textBoxLegsWidth.Text, out int legsWidth);
+            int.TryParse(textBoxTableHeight.Text, out int tableHeight);
+
+            paramList.Add(ParamType.TopWidth, topWidth);
+            paramList.Add(ParamType.TopDepth, topDepth);
+            paramList.Add(ParamType.TopHeight, topHeight);
+            paramList.Add(ParamType.LegWidth, legsWidth);
+            paramList.Add(ParamType.TableHeight, tableHeight);
 
             var parameters = new Parameters();
             var incorrect = parameters.SetParameters(paramList);
 
-            if (incorrect.Count == 0)
+            if (incorrect.Count == 0 && !voidTextBoxes)
             {
                 BuildModel(parameters);
             }
@@ -46,6 +55,50 @@ namespace plugin
             {
                 PrintErrors(incorrect);
             }
+        }
+
+        private bool AreTextBoxesVoid()
+        {
+            labelError.Text = "";
+            textBoxTopWidth.BackColor = Color.White;
+            textBoxTopDepth.BackColor = Color.White;
+            textBoxTopHeight.BackColor = Color.White;
+            textBoxLegsWidth.BackColor = Color.White;
+            textBoxTableHeight.BackColor = Color.White;
+
+            bool rv = false;
+            if (textBoxTopWidth.Text == "")
+            {
+                labelError.Text += "Ошибка: значение ширины столешницы не может быть пустым\n";
+                textBoxTopWidth.BackColor = Color.LightPink;
+                rv = true;
+            }
+            if (textBoxTopDepth.Text == "")
+            {
+                labelError.Text += "Ошибка: значение глубины столешницы не может быть пустым\n";
+                textBoxTopDepth.BackColor = Color.LightPink;
+                rv = true;
+            }
+            if (textBoxTopHeight.Text == "")
+            {
+                labelError.Text += "Ошибка: значение толщины столешницы не может быть пустым\n";
+                textBoxTopHeight.BackColor = Color.LightPink;
+                rv = true;
+            }
+            if (textBoxLegsWidth.Text == "")
+            {
+                labelError.Text += "Ошибка: значение ширины ножек не может быть пустым\n";
+                textBoxLegsWidth.BackColor = Color.LightPink;
+                rv = true;
+            }
+            if (textBoxTableHeight.Text == "")
+            {
+                labelError.Text += "Ошибка: значение высоты стола не может быть пустым\n";
+                textBoxTableHeight.BackColor = Color.LightPink;
+                rv = true;
+            }
+
+            return rv;
         }
 
         private void TextBox_OnlyDigitKeyPress(object sender, KeyPressEventArgs e)
@@ -58,13 +111,6 @@ namespace plugin
 
         private void PrintErrors(List<IncorrectParameters> incorrect)
         {
-            labelError.Text = "";
-            textBoxTopWidth.BackColor = Color.White;
-            textBoxTopDepth.BackColor = Color.White;
-            textBoxTopHeight.BackColor = Color.White;
-            textBoxLegsWidth.BackColor = Color.White;
-            textBoxTableHeight.BackColor = Color.White;
-
             foreach (var param in incorrect)
             {
                 switch (param)

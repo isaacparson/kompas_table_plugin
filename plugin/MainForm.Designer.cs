@@ -165,7 +165,7 @@
             this.buttonRun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonRun.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.buttonRun.Location = new System.Drawing.Point(201, 474);
+            this.buttonRun.Location = new System.Drawing.Point(201, 562);
             this.buttonRun.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(308, 47);
@@ -217,7 +217,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 551);
+            this.ClientSize = new System.Drawing.Size(705, 639);
             this.Controls.Add(this.labelError);
             this.Controls.Add(this.buttonRun);
             this.Controls.Add(this.textBoxTableHeight);
