@@ -117,6 +117,7 @@ namespace KompasWrapperLib
             IKompasDocument3D document3D = (IKompasDocument3D)_kompas7.Application.ActiveDocument;
             _part = document3D.TopPart;
             _modelContainer = (IModelContainer)_part;
+            System.Threading.Thread.Sleep(100);
         }
 
         public bool IsCadRunning()

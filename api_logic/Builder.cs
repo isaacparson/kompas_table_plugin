@@ -1,4 +1,5 @@
 ﻿using ParametersLogic;
+using System.Diagnostics;
 using WrapperLib;
 
 namespace ApiLogic
@@ -7,6 +8,7 @@ namespace ApiLogic
     {
         private IWrapper _wrapper;
         private Parameters _parameters;
+        private static int counter = 0;
 
         public Builder(Parameters parameters, Cad cad)
         {
@@ -17,11 +19,12 @@ namespace ApiLogic
 
         public void Build()
         {
-            if (!_wrapper.IsCadRunning())
+            if (!_wrapper.IsCadRunning() || counter == 23)
             {
                 _wrapper.OpenCad();
             }
             _wrapper.CreatePart();
+            counter++;
 
             _parameters.Params.TryGetValue(ParamType.TopWidth, out int topWidth);
             _parameters.Params.TryGetValue(ParamType.TopDepth, out int topDepth);

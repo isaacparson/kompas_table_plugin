@@ -60,6 +60,7 @@ namespace KompasStressTest
                 streamWriter.WriteLine($"{++count}\t{stopWatch.Elapsed:hh\\:mm\\:ss}\t{usedMemory}");
                 streamWriter.Flush();
                 stopWatch.Reset();
+                System.Threading.Thread.Sleep(50);
             }
             {
                 ObjectQuery objectQuery = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
