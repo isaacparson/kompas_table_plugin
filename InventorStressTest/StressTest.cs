@@ -19,12 +19,12 @@ namespace InventorStressTest
             int legsWidth = 20;
             int tableHeight = 500;
 
-            var dict = new Dictionary<ParamType, int>();
-            dict.Add(ParamType.TopWidth, topWidth);
-            dict.Add(ParamType.TopDepth, topDepth);
-            dict.Add(ParamType.TopHeight, topHeight);
-            dict.Add(ParamType.LegWidth, legsWidth);
-            dict.Add(ParamType.TableHeight, tableHeight);
+            var dict = new Dictionary<ParamType, Parameter>();
+            dict.Add(ParamType.TopWidth, Parameter.CreateInstance(ParamType.TopWidth, topWidth));
+            dict.Add(ParamType.TopDepth, Parameter.CreateInstance(ParamType.TopDepth, topDepth));
+            dict.Add(ParamType.TopHeight, Parameter.CreateInstance(ParamType.TopHeight, topHeight));
+            dict.Add(ParamType.LegWidth, Parameter.CreateInstance(ParamType.LegWidth, legsWidth));
+            dict.Add(ParamType.TableHeight, Parameter.CreateInstance(ParamType.TableHeight, tableHeight));
 
             var parameters = new Parameters();
             parameters.SetParameters(dict);

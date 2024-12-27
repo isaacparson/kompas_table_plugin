@@ -5,80 +5,75 @@ namespace ParametersLogic
 
     public class Parameters
     {
-        public Dictionary<ParamType, int> _parameters;
+        public Dictionary<ParamType, Parameter> Params { get; set; }
 
-        public Dictionary<ParamType, int> Params
-        {
-            get 
-            { 
-                return _parameters; 
-            }
-            set 
-            {
-                _parameters = value; 
-            }
-        }
-
-        public Parameters()
-        {
-        }
-
-        public List<IncorrectParameters> SetParameters(Dictionary<ParamType, int> parameters)
+        public List<IncorrectParameters> SetParameters(Dictionary<ParamType, Parameter> parameters)
         {
             var incorrect = Validate(parameters);
-            if (incorrect.Count == 0)
-            {
-                _parameters = parameters;
-            }
+            Params = parameters;
             return incorrect;
         }
 
-        public Dictionary<ParamType, int> GetParameters()
+        public Dictionary<ParamType, Parameter> GetParameters()
         {
-            return _parameters;
+            return Params;
         }
 
         /// <summary>
         /// Возвращает пустой список, если валидация прошла успешно. 
         /// Иначе возвращает список параметров, которые имеют неверные значения.
         /// </summary>
-        private List<IncorrectParameters> Validate(Dictionary<ParamType, int> parameters)
+        private List<IncorrectParameters> Validate(Dictionary<ParamType, Parameter> parameters)
         {
-            parameters.TryGetValue(ParamType.TopWidth, out int topWidth);
-            parameters.TryGetValue(ParamType.TopDepth, out int topDepth);
-            parameters.TryGetValue(ParamType.TopHeight, out int topHeight);   
-            parameters.TryGetValue(ParamType.LegWidth, out int legWidth);
-            parameters.TryGetValue(ParamType.TableHeight, out int tableHeight);
-
-            int twoLegsWidth = legWidth * 2 + 200;
-
             var incorrect = new List<IncorrectParameters>();
 
-            if (topWidth < 500 || topWidth > 5000)
+            var legWidth = parameters[ParamType.LegWidth];
+            var topWidth = parameters[ParamType.TopWidth];
+            var topDepth = parameters[ParamType.TopDepth];
+
+            int twoLegsWidth = legWidth.Value * 2 + 200;
+            bool wereIncorrect = false;
+
+            foreach (var parameter in parameters)
             {
-                incorrect.Add(IncorrectParameters.TopWidthIncorrect);
+                var value = parameter.Value;
+                if (value.Value < value.MinValue || value.Value > value.MaxValue)
+                {
+                    switch(parameter.Key)
+                    {
+                        case (ParamType.TopWidth):
+                        {
+                            incorrect.Add(IncorrectParameters.TopWidthIncorrect);
+                            break;
+                        }
+                        case (ParamType.TopDepth):
+                        {
+                            incorrect.Add(IncorrectParameters.TopDepthIncorrect);
+                            break;
+                        }
+                        case (ParamType.LegWidth):
+                        {
+                            incorrect.Add(IncorrectParameters.LegWidthIncorrect);
+                            break;
+                        }
+                        case (ParamType.TableHeight):
+                        {
+                            incorrect.Add(IncorrectParameters.TableHeightIncorrect);
+                            break;
+                        }
+                        case (ParamType.TopHeight):
+                        {
+                            incorrect.Add(IncorrectParameters.TopHeightIncorrect);
+                            break;
+                        }
+                    }
+                }
             }
-            if (topDepth < 500 || topDepth > 5000)
-            {
-                incorrect.Add(IncorrectParameters.TopDepthIncorrect);
-            }
-            if (topHeight < 16 || topHeight > 100)
-            {
-                incorrect.Add(IncorrectParameters.TopHeightIncorrect);
-            }
-            if (legWidth < 20 || legWidth > 200)
-            {
-                incorrect.Add(IncorrectParameters.LegWidthIncorrect);
-            }
-            if (tableHeight < 500 || tableHeight > 1400)
-            {
-                incorrect.Add(IncorrectParameters.TableHeightIncorrect);
-            }
-            if (topWidth < twoLegsWidth || topDepth < twoLegsWidth)
+            if ((topWidth.Value < twoLegsWidth || topDepth.Value < twoLegsWidth) && !wereIncorrect)
             {
                 incorrect.Add(IncorrectParameters.TopAndLegsAreaIncorrect);
+                wereIncorrect = true;
             }
-
             return incorrect;
         }
     }

@@ -85,7 +85,6 @@ namespace KompasWrapperLib
                 extrusion.Depth[true] = -height;
             }
             
-
             IExtrusion1 extrusion1 = (IExtrusion1)extrusion;
             extrusion1.Profile = _theLastCreatedSketch;
             extrusion1.DirectionObject = _theLastCreatedSketch;

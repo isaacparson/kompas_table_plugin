@@ -16,44 +16,37 @@ namespace plugin
             InitializeComponent();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButtonInventor_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void buttonRun_Click(object sender, EventArgs e)
         {
             var voidTextBoxes = AreTextBoxesVoid();
-
-            var paramList = new Dictionary<ParamType, int>();
-
-            int.TryParse(textBoxTopWidth.Text, out int topWidth);
-            int.TryParse(textBoxTopDepth.Text, out int topDepth);
-            int.TryParse(textBoxTopHeight.Text, out int topHeight);
-            int.TryParse(textBoxLegsWidth.Text, out int legsWidth);
-            int.TryParse(textBoxTableHeight.Text, out int tableHeight);
-
-            paramList.Add(ParamType.TopWidth, topWidth);
-            paramList.Add(ParamType.TopDepth, topDepth);
-            paramList.Add(ParamType.TopHeight, topHeight);
-            paramList.Add(ParamType.LegWidth, legsWidth);
-            paramList.Add(ParamType.TableHeight, tableHeight);
-
-            var parameters = new Parameters();
-            var incorrect = parameters.SetParameters(paramList);
-
-            if (incorrect.Count == 0 && !voidTextBoxes)
+            if (!voidTextBoxes)
             {
-                BuildModel(parameters);
-            }
-            else
-            {
-                PrintErrors(incorrect);
+                var paramDict = new Dictionary<ParamType, Parameter>();
+
+                int.TryParse(textBoxTopWidth.Text, out int topWidth);
+                int.TryParse(textBoxTopDepth.Text, out int topDepth);
+                int.TryParse(textBoxTopHeight.Text, out int topHeight);
+                int.TryParse(textBoxLegsWidth.Text, out int legsWidth);
+                int.TryParse(textBoxTableHeight.Text, out int tableHeight);
+
+                paramDict.Add(ParamType.TopWidth, Parameter.CreateInstance(ParamType.TopWidth, topWidth));
+                paramDict.Add(ParamType.TopDepth, Parameter.CreateInstance(ParamType.TopDepth, topDepth));
+                paramDict.Add(ParamType.TopHeight, Parameter.CreateInstance(ParamType.TopHeight, topHeight));
+                paramDict.Add(ParamType.LegWidth, Parameter.CreateInstance(ParamType.LegWidth, legsWidth));
+                paramDict.Add(ParamType.TableHeight, Parameter.CreateInstance(ParamType.TableHeight, tableHeight));
+
+                var parameters = new Parameters();
+                var incorrect = parameters.SetParameters(paramDict);
+
+                if (incorrect.Count == 0 && !voidTextBoxes)
+                {
+                    BuildModel(parameters);
+                }
+                else
+                {
+                    PrintErrors(incorrect, parameters);
+                }
             }
         }
 
@@ -109,14 +102,17 @@ namespace plugin
             }
         }
 
-        private void PrintErrors(List<IncorrectParameters> incorrect)
+        private void PrintErrors(List<IncorrectParameters> incorrect, Parameters parameters)
         {
+            var dict = parameters.GetParameters();
+
             foreach (var param in incorrect)
             {
                 switch (param)
                 {
                     case IncorrectParameters.TopWidthIncorrect:
-                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от 500 до 5000мм\n";
+                        var value = dict[ParamType.TopWidth];
+                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от" + value.MinValue + "до" + value.MaxValue + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTopWidth.BackColor = Color.LightPink;
                         break;
@@ -161,11 +157,6 @@ namespace plugin
 
             _builder = new Builder(parameters, cad);
             _builder.Build();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

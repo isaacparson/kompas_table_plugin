@@ -26,11 +26,11 @@ namespace ApiLogic
             _wrapper.CreatePart();
             counter++;
 
-            _parameters.Params.TryGetValue(ParamType.TopWidth, out int topWidth);
-            _parameters.Params.TryGetValue(ParamType.TopDepth, out int topDepth);
-            _parameters.Params.TryGetValue(ParamType.TopHeight, out int topHeight);
-            _parameters.Params.TryGetValue(ParamType.LegWidth, out int legWidth);
-            _parameters.Params.TryGetValue(ParamType.TableHeight, out int tableHeight);
+            var topWidth = _parameters.Params[ParamType.TopWidth].Value;
+            var topDepth = _parameters.Params[ParamType.TopDepth].Value;
+            var topHeight = _parameters.Params[ParamType.TopHeight].Value;
+            var legWidth = _parameters.Params[ParamType.LegWidth].Value;
+            var tableHeight = _parameters.Params[ParamType.TableHeight].Value;
             int legHeight = tableHeight - topHeight;
             double originX = 0;
             double originY = 0;

@@ -62,7 +62,6 @@
             this.label2.Size = new System.Drawing.Size(226, 16);
             this.label2.TabIndex = 3;
             this.label2.Text = "Ширина столешницы (500-5000мм):";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -211,7 +210,6 @@
             this.radioButtonInventor.TabStop = true;
             this.radioButtonInventor.Text = "Inventor";
             this.radioButtonInventor.UseVisualStyleBackColor = true;
-            this.radioButtonInventor.CheckedChanged += new System.EventHandler(this.radioButtonInventor_CheckedChanged);
             // 
             // MainForm
             // 
@@ -236,7 +234,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
             this.Text = "Плагин построения объекта \"Стол\"";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
