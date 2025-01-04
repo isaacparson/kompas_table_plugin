@@ -17,11 +17,13 @@ namespace KompasWrapperLib
         {
             if (width == 0 || height == 0)
             {
-                throw new WrapperNewRectangleException("Rectangle build failed: one or both dimensions are zero");
+                throw new WrapperNewRectangleException(
+                    "Rectangle build failed: one or both dimensions are zero");
             }
             if (_modelContainer == null)
             {
-                throw new WrapperNewRectangleException("Rectangle build failed: there is no part for sketch");
+                throw new WrapperNewRectangleException(
+                    "Rectangle build failed: there is no part for sketch");
             }
             ISketch sketch = _modelContainer.Sketchs.Add();
             sketch.Plane = _part.DefaultObject[ksObj3dTypeEnum.o3d_planeXOY];
@@ -61,11 +63,13 @@ namespace KompasWrapperLib
         {
             if (height <= 0)
             {
-                throw new WrapperExtrudeException("Extrude failed: height is less than zero");
+                throw new WrapperExtrudeException(
+                    "Extrude failed: height is less than zero");
             }
             if (_theLastCreatedSketch == null)
             {
-                throw new WrapperExtrudeException("Extrude failed: there is no sketch to extrude");
+                throw new WrapperExtrudeException(
+                    "Extrude failed: there is no sketch to extrude");
             }
 
             IExtrusions extrusions = _modelContainer.Extrusions;
@@ -101,7 +105,8 @@ namespace KompasWrapperLib
             _kompas7 = (IKompasAPIObject)Activator.CreateInstance(t);
             if (_kompas7 == null)
             {
-                throw new WrapperOpenCadException("Open Kompas failed: there is probably no kompas on device");
+                throw new WrapperOpenCadException(
+                    "Open Kompas failed: there is probably no kompas on device");
             }
             _kompas7.Application.Visible = true;
         }
@@ -110,7 +115,8 @@ namespace KompasWrapperLib
         {
             if (_kompas7 == null)
             {
-                throw new WrapperCreatePartException("Create part failed: kompas is not running");
+                throw new WrapperCreatePartException(
+                    "Create part failed: kompas is not running");
             }
             _kompas7.Application.Documents.Add(DocumentTypeEnum.ksDocumentPart);
             IKompasDocument3D document3D = (IKompasDocument3D)_kompas7.Application.ActiveDocument;

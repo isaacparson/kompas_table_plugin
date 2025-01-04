@@ -2,11 +2,21 @@
 
 namespace ParametersLogic
 {
-
+    /// <summary>
+    /// Набор параметров, реализующий валидацию их значений
+    /// </summary>
     public class Parameters
     {
+        /// <summary>
+        /// Словарь параметров
+        /// </summary>
         public Dictionary<ParamType, Parameter> Params { get; set; }
 
+        /// <summary>
+        /// Установить параметры и провалидировать их значения
+        /// </summary>
+        /// <param name="parameters">Словарь параметров</param>
+        /// <returns>Список параметров, непрошедших валидацию</returns>
         public List<IncorrectParameters> SetParameters(Dictionary<ParamType, Parameter> parameters)
         {
             var incorrect = Validate(parameters);
@@ -14,15 +24,21 @@ namespace ParametersLogic
             return incorrect;
         }
 
+        /// <summary>
+        /// Получить параметры
+        /// </summary>
+        /// <returns>Словарь параметров</returns>
         public Dictionary<ParamType, Parameter> GetParameters()
         {
             return Params;
         }
 
         /// <summary>
-        /// Возвращает пустой список, если валидация прошла успешно. 
-        /// Иначе возвращает список параметров, которые имеют неверные значения.
+        /// Провести валидацию переданных параметров
         /// </summary>
+        /// <param name="parameters">Словарь параметров</param>
+        /// <returns>Список параметров, непрошедших валидацию.
+        /// Пустой список если все параметры корректны</returns>
         private List<IncorrectParameters> Validate(Dictionary<ParamType, Parameter> parameters)
         {
             var incorrect = new List<IncorrectParameters>();
@@ -37,44 +53,84 @@ namespace ParametersLogic
             foreach (var parameter in parameters)
             {
                 var value = parameter.Value;
-                if (value.Value < value.MinValue || value.Value > value.MaxValue)
+                switch (parameter.Key)
                 {
-                    switch(parameter.Key)
-                    {
-                        case (ParamType.TopWidth):
+                    case (ParamType.TopWidth):
                         {
-                            incorrect.Add(IncorrectParameters.TopWidthIncorrect);
+                            value.MinValue = 500;
+                            value.MaxValue = 5000;
+                            AddIfIncorrect(
+                                incorrect, 
+                                IncorrectParameters.TopWidthIncorrect, 
+                                value);
                             break;
                         }
-                        case (ParamType.TopDepth):
+                    case (ParamType.TopDepth):
                         {
-                            incorrect.Add(IncorrectParameters.TopDepthIncorrect);
+                            value.MinValue = 500;
+                            value.MaxValue = 5000;
+                            AddIfIncorrect(
+                                incorrect, 
+                                IncorrectParameters.TopDepthIncorrect, 
+                                value);
                             break;
                         }
-                        case (ParamType.LegWidth):
+                    case (ParamType.LegWidth):
                         {
-                            incorrect.Add(IncorrectParameters.LegWidthIncorrect);
+                            value.MinValue = 20;
+                            value.MaxValue = 200;
+                            AddIfIncorrect(
+                                incorrect, 
+                                IncorrectParameters.LegWidthIncorrect, 
+                                value);
                             break;
                         }
-                        case (ParamType.TableHeight):
+                    case (ParamType.TableHeight):
                         {
-                            incorrect.Add(IncorrectParameters.TableHeightIncorrect);
+                            value.MinValue = 500;
+                            value.MaxValue = 1400;
+                            AddIfIncorrect(
+                                incorrect, 
+                                IncorrectParameters.TableHeightIncorrect, 
+                                value);
                             break;
                         }
-                        case (ParamType.TopHeight):
+                    case (ParamType.TopHeight):
                         {
-                            incorrect.Add(IncorrectParameters.TopHeightIncorrect);
+                            value.MinValue = 16;
+                            value.MaxValue = 100;
+                            AddIfIncorrect(
+                                incorrect, 
+                                IncorrectParameters.TopHeightIncorrect, 
+                                value);
                             break;
                         }
-                    }
                 }
             }
-            if ((topWidth.Value < twoLegsWidth || topDepth.Value < twoLegsWidth) && !wereIncorrect)
+            if ((topWidth.Value < twoLegsWidth || topDepth.Value < twoLegsWidth) 
+                && !wereIncorrect)
             {
                 incorrect.Add(IncorrectParameters.TopAndLegsAreaIncorrect);
                 wereIncorrect = true;
             }
             return incorrect;
+        }
+
+        /// <summary>
+        /// Проверить значение параметра и добавить его к списку некорректных параметров в случае неудачи.
+        /// </summary>
+        /// <param name="incorrect">Список параметров, непрошедших валидацию</param>
+        /// <param name="type">Тип параметра</param>
+        /// <param name="value">Параметр</param>
+        private void AddIfIncorrect(
+            List<IncorrectParameters> incorrect, 
+            IncorrectParameters type, 
+            Parameter value)
+        {
+            if (value.Value < value.MinValue || value.Value > value.MaxValue)
+            {
+                incorrect.Add(IncorrectParameters.TopWidthIncorrect);
+            }
         }
     }
 }

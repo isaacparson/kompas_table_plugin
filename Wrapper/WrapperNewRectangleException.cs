@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WrapperLib
 {
+    /// <summary>
+    /// Исключение создания эскиза с прямоугольником
+    /// </summary>
     public class WrapperNewRectangleException : Exception
     {
         public WrapperNewRectangleException(string message) : base(message) { }

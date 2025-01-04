@@ -1,75 +1,32 @@
 ﻿namespace ParametersLogic
 {
+    /// <summary>
+    /// Параметр, используемый для передачи размеров при построении модели в САПР
+    /// </summary>
     public class Parameter
     {
-        public int value_;
-        public readonly int maxValue_;
-        public readonly int minValue_;
-
-        private Parameter(int maxValue, int minValue, int value)
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="value">Числовое значение параметра</param>
+        public Parameter(int value)
         {
-            maxValue_ = maxValue;
-            minValue_ = minValue;
             Value = value;
         }
 
-        public int MaxValue
-        {
-            get
-            {
-                return maxValue_;
-            }
-        }
+        /// <summary>
+        /// Максимальное значение параметра
+        /// </summary>
+        public int MaxValue { get; set; }
 
-        public int MinValue
-        {
-            get
-            {
-                return minValue_;
-            }
-        }
+        /// <summary>
+        /// Минимальное значение параметра
+        /// </summary>
+        public int MinValue { get; set; }
 
-        public int Value
-        {
-            get
-            {
-                return value_;
-            }
-            set
-            {
-                value_ = value;
-            }
-        }
-
-        public static Parameter CreateInstance(ParamType type, int value)
-        {
-            switch (type)
-            {
-                case ParamType.TopWidth:
-                    {
-                        return new Parameter(5000, 500, value);
-                    }
-                case ParamType.TopDepth:
-                    {
-                        return new Parameter(5000, 500, value);
-                    }
-                case ParamType.TopHeight:
-                    {
-                        return new Parameter(100, 16, value);
-                    }
-                case ParamType.LegWidth:
-                    {
-                        return new Parameter(200, 20, value);
-                    }
-                case ParamType.TableHeight:
-                    {
-                        return new Parameter(1400, 500, value);
-                    }
-                default:
-                    {
-                        return new Parameter(0, 0, value);
-                    }
-            }
-        }
+        /// <summary>
+        /// Значение параметра
+        /// </summary>
+        public int Value { get; set; }
     }
 }

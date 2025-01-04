@@ -2,8 +2,6 @@
 using ApiLogic;
 using ParametersLogic;
 using System.Management;
-using System.CodeDom.Compiler;
-using System.IO;
 
 namespace InventorStressTest
 {
@@ -20,11 +18,11 @@ namespace InventorStressTest
             int tableHeight = 500;
 
             var dict = new Dictionary<ParamType, Parameter>();
-            dict.Add(ParamType.TopWidth, Parameter.CreateInstance(ParamType.TopWidth, topWidth));
-            dict.Add(ParamType.TopDepth, Parameter.CreateInstance(ParamType.TopDepth, topDepth));
-            dict.Add(ParamType.TopHeight, Parameter.CreateInstance(ParamType.TopHeight, topHeight));
-            dict.Add(ParamType.LegWidth, Parameter.CreateInstance(ParamType.LegWidth, legsWidth));
-            dict.Add(ParamType.TableHeight, Parameter.CreateInstance(ParamType.TableHeight, tableHeight));
+            dict.Add(ParamType.TopWidth, new Parameter(topWidth));
+            dict.Add(ParamType.TopDepth, new Parameter(topDepth));
+            dict.Add(ParamType.TopHeight, new Parameter(topHeight));
+            dict.Add(ParamType.LegWidth, new Parameter(legsWidth));
+            dict.Add(ParamType.TableHeight, new Parameter(tableHeight));
 
             var parameters = new Parameters();
             parameters.SetParameters(dict);
@@ -68,7 +66,10 @@ namespace InventorStressTest
                 var enumerator = managementObjectCollection.GetEnumerator();
                 enumerator.MoveNext();
                 var managementObject = enumerator.Current;
-                streamWriter.Write($"End {double.Parse(managementObject["TotalVisibleMemorySize"].ToString()) * gbytesInKbytes}");
+                streamWriter.Write(
+                    $"End {double.Parse(
+                        managementObject["TotalVisibleMemorySize"].ToString()) 
+                    * gbytesInKbytes}");
                 streamWriter.Flush();
             }
         }

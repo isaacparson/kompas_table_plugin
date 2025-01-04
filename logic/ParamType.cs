@@ -1,5 +1,8 @@
 ﻿namespace ParametersLogic
 {
+    /// <summary>
+    /// Тип параметра
+    /// </summary>
     public enum ParamType
     {
         TopWidth,

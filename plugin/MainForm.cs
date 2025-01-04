@@ -16,7 +16,6 @@ namespace plugin
             InitializeComponent();
         }
 
-
         private void buttonRun_Click(object sender, EventArgs e)
         {
             var voidTextBoxes = AreTextBoxesVoid();
@@ -30,11 +29,11 @@ namespace plugin
                 int.TryParse(textBoxLegsWidth.Text, out int legsWidth);
                 int.TryParse(textBoxTableHeight.Text, out int tableHeight);
 
-                paramDict.Add(ParamType.TopWidth, Parameter.CreateInstance(ParamType.TopWidth, topWidth));
-                paramDict.Add(ParamType.TopDepth, Parameter.CreateInstance(ParamType.TopDepth, topDepth));
-                paramDict.Add(ParamType.TopHeight, Parameter.CreateInstance(ParamType.TopHeight, topHeight));
-                paramDict.Add(ParamType.LegWidth, Parameter.CreateInstance(ParamType.LegWidth, legsWidth));
-                paramDict.Add(ParamType.TableHeight, Parameter.CreateInstance(ParamType.TableHeight, tableHeight));
+                paramDict.Add(ParamType.TopWidth, new Parameter(topWidth));
+                paramDict.Add(ParamType.TopDepth, new Parameter(topDepth));
+                paramDict.Add(ParamType.TopHeight, new Parameter(topHeight));
+                paramDict.Add(ParamType.LegWidth, new Parameter(legsWidth));
+                paramDict.Add(ParamType.TableHeight, new Parameter(tableHeight));
 
                 var parameters = new Parameters();
                 var incorrect = parameters.SetParameters(paramDict);
@@ -112,34 +111,44 @@ namespace plugin
                 {
                     case IncorrectParameters.TopWidthIncorrect:
                         var value = dict[ParamType.TopWidth];
-                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от" + value.MinValue + "до" + value.MaxValue + "\n";
+                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от" + 
+                            value.MinValue + "до" + value.MaxValue + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTopWidth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopDepthIncorrect:
-                        labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон от 500 до 5000мм\n";
+                        value = dict[ParamType.TopDepth];
+                        labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон от" + 
+                            value.MinValue + "до" + value.MaxValue + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTopDepth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopHeightIncorrect:
-                        labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон от 16 до 100мм\n";
+                        value = dict[ParamType.TopHeight];
+                        labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон от" + 
+                            value.MinValue + "до" + value.MaxValue + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTopHeight.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.LegWidthIncorrect:
-                        labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон от 20 до 200мм\n";
+                        value = dict[ParamType.LegWidth];
+                        labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон от" + 
+                            value.MinValue + "до" + value.MaxValue + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxLegsWidth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TableHeightIncorrect:
-                        labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон от 500 до 1400мм\n";
+                        value = dict[ParamType.TableHeight];
+                        labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон от" + 
+                            value.MinValue + "до" + value.MaxValue + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTableHeight.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopAndLegsAreaIncorrect:
-                        labelError.Text += "Ошибка: связанные параметры \"ширина столешницы, глубина столешницы и ширина ножек\"\n" +
-                                           "    имеют недопустимые параметры:\n" +
-                                           "    площадь столешницы должна быть больше площади сечения ножек";
+                        labelError.Text += 
+                            "Ошибка: связанные параметры \"ширина столешницы, глубина столешницы и ширина ножек\"\n" +
+                            "    имеют недопустимые параметры:\n" +
+                            "    площадь столешницы должна быть больше площади сечения ножек";
                         labelError.BackColor = Color.LightPink;
                         textBoxTopWidth.BackColor = Color.LightPink;
                         textBoxTopDepth.BackColor = Color.LightPink;

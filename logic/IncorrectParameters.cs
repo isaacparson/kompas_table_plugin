@@ -1,5 +1,8 @@
 ﻿namespace ParametersLogic
 {
+    /// <summary>
+    /// Тип параметров, непрошедших валидацию.
+    /// </summary>
     public enum IncorrectParameters
     {
         TopWidthIncorrect,
