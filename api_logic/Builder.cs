@@ -1,15 +1,22 @@
 ﻿using ParametersLogic;
-using System.Diagnostics;
 using WrapperLib;
 
 namespace ApiLogic
 {
+    /// <summary>
+    /// Построитель модели стола
+    /// </summary>
     public class Builder
     {
         private IWrapper _wrapper;
         private Parameters _parameters;
         private static int counter = 0;
 
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="parameters">Параметры модели стола</param>
+        /// <param name="cad">САПР, в которой будет происходить построение</param>
         public Builder(Parameters parameters, Cad cad)
         {
             WrapperFactory factroy = new WrapperFactory();
@@ -17,6 +24,9 @@ namespace ApiLogic
             _parameters = parameters;
         }
 
+        /// <summary>
+        /// Построить стол
+        /// </summary>
         public void Build()
         {
             if (!_wrapper.IsCadRunning() || counter == 23)

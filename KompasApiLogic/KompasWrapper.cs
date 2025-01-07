@@ -6,6 +6,9 @@ using WrapperLib;
 
 namespace KompasWrapperLib
 {
+    /// <summary>
+    /// Класс, реализующий базовое взаимодействие с API Компас 3D
+    /// </summary>
     public class KompasWrapper : IWrapper
     {
         private static IKompasAPIObject _kompas7;

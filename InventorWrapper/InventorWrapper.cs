@@ -4,6 +4,9 @@ using WrapperLib;
 
 namespace InventorWrapperLib
 {
+    /// <summary>
+    /// Класс, еализующий базовое взаимодействие с API Autodesk Inventor
+    /// </summary>
     public class InventorWrapper : IWrapper
     {
         Inventor.Application _inventorApp;
