@@ -9,10 +9,25 @@ namespace InventorWrapperLib
     /// </summary>
     public class InventorWrapper : IWrapper
     {
-        Inventor.Application _inventorApp;
-        PartDocument _partDocument;
-        PlanarSketch _sketch;
-        PartComponentDefinition _partCompDef;
+        /// <summary>
+        /// Инстанс инвентора.
+        /// </summary>
+        private Inventor.Application _inventorApp;
+
+        /// <summary>
+        /// Документ- деталь.
+        /// </summary>
+        private PartDocument _partDocument;
+
+        /// <summary>
+        /// Документ- эскиз.
+        /// </summary>
+        private PlanarSketch _sketch;
+
+        /// <summary>
+        /// Определение детали.
+        /// </summary>
+        private PartComponentDefinition _partCompDef;
 
         public void OpenCad()
         {

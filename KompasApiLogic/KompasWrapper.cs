@@ -11,9 +11,24 @@ namespace KompasWrapperLib
     /// </summary>
     public class KompasWrapper : IWrapper
     {
+        /// <summary>
+        /// Инстанс Компаса.
+        /// </summary>
         private static IKompasAPIObject _kompas7;
+
+        /// <summary>
+        /// Документ- деталь.
+        /// </summary>
         private IPart7 _part;
+
+        /// <summary>
+        /// Контейнер моделей.
+        /// </summary>
         private IModelContainer _modelContainer;
+
+        /// <summary>
+        /// Последний созданный эскиз.
+        /// </summary>
         private ISketch _theLastCreatedSketch;
 
         public void NewRectangle(double x, double y, int width, int height, string name)

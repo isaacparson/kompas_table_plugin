@@ -8,8 +8,19 @@ namespace ApiLogic
     /// </summary>
     public class Builder
     {
+        /// <summary>
+        /// Ссылка на объект работы с API САПР
+        /// </summary>
         private IWrapper _wrapper;
+
+        /// <summary>
+        /// Параметры построения модели
+        /// </summary>
         private Parameters _parameters;
+
+        /// <summary>
+        /// Счетчик созданных проектов в САПР
+        /// </summary>
         private static int counter = 0;
 
         /// <summary>
