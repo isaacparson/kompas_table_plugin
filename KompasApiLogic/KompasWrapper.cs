@@ -31,6 +31,14 @@ namespace KompasWrapperLib
         /// </summary>
         private ISketch _theLastCreatedSketch;
 
+        /// <summary>
+        /// Создать эскиз с прямоугольником
+        /// </summary>
+        /// <param name="x">Координата X начала</param>
+        /// <param name="y">Координата Y начала</param>
+        /// <param name="width">Ширина</param>
+        /// <param name="height">Высота</param>
+        /// <param name="name">Имя эскиза</param>
         public void NewRectangle(double x, double y, int width, int height, string name)
         {
             if (width == 0 || height == 0)
@@ -77,6 +85,12 @@ namespace KompasWrapperLib
             _theLastCreatedSketch = sketch;
         }
 
+        /// <summary>
+        /// Выдавить последний созданный эскиз по оси OZ
+        /// </summary>
+        /// <param name="height">Глубина выдавливания</param>
+        /// <param name="name">Имя результирующего тела</param>
+        /// <param name="positiveDirection">Направление выдавливания - в положительную сторону оси</param>
         public void Extrude(int height, string name, bool positiveDirection)
         {
             if (height <= 0)
@@ -117,6 +131,10 @@ namespace KompasWrapperLib
             }
         }
 
+        /// <summary>
+        /// Открыть САПР
+        /// </summary>
+        /// <exception cref="WrapperOpenCadException"></exception>
         public void OpenCad()
         {
             Type t = Type.GetTypeFromProgID("KOMPAS.Application.7");
@@ -129,6 +147,10 @@ namespace KompasWrapperLib
             _kompas7.Application.Visible = true;
         }
 
+        /// <summary>
+        /// Создать деталь
+        /// </summary>
+        /// <exception cref="WrapperCreatePartException"></exception>
         public void CreatePart()
         {
             if (_kompas7 == null)
@@ -143,6 +165,10 @@ namespace KompasWrapperLib
             System.Threading.Thread.Sleep(100);
         }
 
+        /// <summary>
+        /// Открыта ли САПР
+        /// </summary>
+        /// <returns></returns>
         public bool IsCadRunning()
         {
             return _kompas7 != null;

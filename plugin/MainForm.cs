@@ -9,19 +9,30 @@ namespace plugin
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Объект класса построителя стола.
+        /// </summary>
         private Builder _builder;
 
+        /// <summary>
+        /// ctor.
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Обработчик нажатия на кнопку Run.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonRun_Click(object sender, EventArgs e)
         {
             var voidTextBoxes = AreTextBoxesVoid();
             if (!voidTextBoxes)
             {
-                var paramDict = new Dictionary<ParamType, Parameter>();
+                var paramDict = new Dictionary<ParamType, int>();
 
                 int.TryParse(textBoxTopWidth.Text, out int topWidth);
                 int.TryParse(textBoxTopDepth.Text, out int topDepth);
@@ -29,11 +40,11 @@ namespace plugin
                 int.TryParse(textBoxLegsWidth.Text, out int legsWidth);
                 int.TryParse(textBoxTableHeight.Text, out int tableHeight);
 
-                paramDict.Add(ParamType.TopWidth, new Parameter(topWidth));
-                paramDict.Add(ParamType.TopDepth, new Parameter(topDepth));
-                paramDict.Add(ParamType.TopHeight, new Parameter(topHeight));
-                paramDict.Add(ParamType.LegWidth, new Parameter(legsWidth));
-                paramDict.Add(ParamType.TableHeight, new Parameter(tableHeight));
+                paramDict.Add(ParamType.TopWidth, topWidth);
+                paramDict.Add(ParamType.TopDepth, topDepth);
+                paramDict.Add(ParamType.TopHeight, topHeight);
+                paramDict.Add(ParamType.LegWidth, legsWidth);
+                paramDict.Add(ParamType.TableHeight, tableHeight);
 
                 var parameters = new Parameters();
                 var incorrect = parameters.SetParameters(paramDict);
@@ -49,6 +60,10 @@ namespace plugin
             }
         }
 
+        /// <summary>
+        /// Метод валидации на пустоту textBox-ов.
+        /// </summary>
+        /// <returns></returns>
         private bool AreTextBoxesVoid()
         {
             labelError.Text = "";
@@ -93,6 +108,11 @@ namespace plugin
             return rv;
         }
 
+        /// <summary>
+        /// Метод устанавливает ограничение на ввод в textBox-ы только цифр.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_OnlyDigitKeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
@@ -101,46 +121,41 @@ namespace plugin
             }
         }
 
-        private void PrintErrors(List<IncorrectParameters> incorrect, Parameters parameters)
+        /// <summary>
+        /// Метод вывода ошибок в форму.
+        /// </summary>
+        /// <param name="incorrect"></param>
+        /// <param name="parameters"></param>
+        private void PrintErrors(Dictionary<IncorrectParameters, string> incorrect, Parameters parameters)
         {
             var dict = parameters.GetParameters();
 
             foreach (var param in incorrect)
             {
-                switch (param)
+                switch (param.Key)
                 {
                     case IncorrectParameters.TopWidthIncorrect:
-                        var value = dict[ParamType.TopWidth];
-                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
+                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон: " + param.Value + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTopWidth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopDepthIncorrect:
-                        value = dict[ParamType.TopDepth];
-                        labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
+                        labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон: " + param.Value + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTopDepth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopHeightIncorrect:
-                        value = dict[ParamType.TopHeight];
-                        labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
+                        labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон: " + param.Value + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTopHeight.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.LegWidthIncorrect:
-                        value = dict[ParamType.LegWidth];
-                        labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
+                        labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон: " + param.Value + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxLegsWidth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TableHeightIncorrect:
-                        value = dict[ParamType.TableHeight];
-                        labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
+                        labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон: " + param.Value + "\n";
                         labelError.BackColor = Color.LightPink;
                         textBoxTableHeight.BackColor = Color.LightPink;
                         break;
@@ -156,8 +171,14 @@ namespace plugin
                         break;
                 }
             }
+
+
         }
 
+        /// <summary>
+        /// Метод построения модели.
+        /// </summary>
+        /// <param name="parameters"></param>
         void BuildModel(Parameters parameters)
         {
             Cad cad = radioButtonKompas.Checked

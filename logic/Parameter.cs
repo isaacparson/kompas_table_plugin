@@ -17,7 +17,7 @@ namespace ParametersLogic
             _value = value;
             if (value < minValue || value > maxValue)
             {
-                throw new System.Exception();
+                throw new System.Exception("[" + minValue + ";" + maxValue + "]");
             }
         }
 

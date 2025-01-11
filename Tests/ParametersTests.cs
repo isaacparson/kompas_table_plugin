@@ -14,12 +14,12 @@ namespace ParametersLogicTests
             int legsWidth = 20;
             int tableHeight = 500;
 
-            var dict = new Dictionary<ParamType, Parameter>();
-            dict.Add(ParamType.TopWidth, new Parameter(topWidth));
-            dict.Add(ParamType.TopDepth, new Parameter(topDepth));
-            dict.Add(ParamType.TopHeight, new Parameter(topHeight));
-            dict.Add(ParamType.LegWidth, new Parameter(legsWidth));
-            dict.Add(ParamType.TableHeight, new Parameter(tableHeight));
+            var dict = new Dictionary<ParamType, int>();
+            dict.Add(ParamType.TopWidth, topWidth);
+            dict.Add(ParamType.TopDepth, topDepth);
+            dict.Add(ParamType.TopHeight, topHeight);
+            dict.Add(ParamType.LegWidth, legsWidth);
+            dict.Add(ParamType.TableHeight, tableHeight);
 
             var parameters = new Parameters();
             var incorrect = parameters.SetParameters(dict);
@@ -37,16 +37,16 @@ namespace ParametersLogicTests
             int legsWidth = 20;
             int tableHeight = 500;
 
-            var dict = new Dictionary<ParamType, Parameter>();
-            dict.Add(ParamType.TopWidth, new Parameter(topWidth));
-            dict.Add(ParamType.TopDepth, new Parameter(wrongTopDepth));
-            dict.Add(ParamType.TopHeight, new Parameter(topHeight));
-            dict.Add(ParamType.LegWidth, new Parameter(legsWidth));
-            dict.Add(ParamType.TableHeight, new Parameter(tableHeight));
+            var dict = new Dictionary<ParamType, int>();
+            dict.Add(ParamType.TopWidth, topWidth);
+            dict.Add(ParamType.TopDepth, wrongTopDepth);
+            dict.Add(ParamType.TopHeight, topHeight);
+            dict.Add(ParamType.LegWidth, legsWidth);
+            dict.Add(ParamType.TableHeight, tableHeight);
             var parameters = new Parameters();
             var incorrect = parameters.SetParameters(dict);
 
-            Assert.That(incorrect.ElementAt(0), Is.EqualTo(IncorrectParameters.TopDepthIncorrect));
+            Assert.That(incorrect.ElementAt(0).Key, Is.EqualTo(IncorrectParameters.TopDepthIncorrect));
         }
 
         [Test]
@@ -58,16 +58,16 @@ namespace ParametersLogicTests
             int legsWidth = 200;
             int tableHeight = 500;
 
-            var dict = new Dictionary<ParamType, Parameter>();
-            dict.Add(ParamType.TopWidth, new Parameter(topWidth));
-            dict.Add(ParamType.TopDepth, new Parameter(topDepth));
-            dict.Add(ParamType.TopHeight, new Parameter(topHeight));
-            dict.Add(ParamType.LegWidth, new Parameter(legsWidth));
-            dict.Add(ParamType.TableHeight, new Parameter(tableHeight));
+            var dict = new Dictionary<ParamType, int>();
+            dict.Add(ParamType.TopWidth, topWidth);
+            dict.Add(ParamType.TopDepth, topDepth);
+            dict.Add(ParamType.TopHeight, topHeight);
+            dict.Add(ParamType.LegWidth, legsWidth);
+            dict.Add(ParamType.TableHeight, tableHeight);
             var parameters = new Parameters();
             var incorrect = parameters.SetParameters(dict);
 
-            Assert.That(incorrect.ElementAt(0), Is.EqualTo(IncorrectParameters.TopAndLegsAreaIncorrect));
+            Assert.That(incorrect.ElementAt(0).Key, Is.EqualTo(IncorrectParameters.TopAndLegsAreaIncorrect));
         }
     }
 }
