@@ -11,6 +11,10 @@ namespace logic
     /// </summary>
     public class ParameterOutOfRangeException : Exception
     {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="message">Сообщение об ошибке.</param>
         public ParameterOutOfRangeException(string message) : base(message) { }
     }
 }

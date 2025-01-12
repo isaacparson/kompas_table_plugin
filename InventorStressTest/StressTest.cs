@@ -27,7 +27,7 @@ namespace InventorStressTest
             var parameters = new Parameters();
             parameters.SetParameters(dict);
 
-            var builder = new Builder(parameters, Cad.AutoCad);
+            var builder = new Builder(parameters, Cad.Inventor);
             var stopWatch = new Stopwatch();
             var count = 0;
 

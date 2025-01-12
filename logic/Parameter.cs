@@ -8,9 +8,13 @@ namespace ParametersLogic
     /// </summary>
     public class Parameter
     {
-        int _value;
         /// <summary>
-        /// ctor.
+        /// Значение параметра.
+        /// </summary>
+        private int _value;
+
+        /// <summary>
+        /// Конструктор.
         /// </summary>
         /// <param name="value">Числовое значение параметра</param>
         public Parameter(int value, int minValue, int maxValue)

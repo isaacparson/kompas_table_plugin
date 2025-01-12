@@ -6,6 +6,6 @@
     public enum Cad
     {
         Kompas,
-        AutoCad,
+        Inventor,
     }
 }

@@ -11,6 +11,10 @@ namespace WrapperLib
     /// </summary>
     public class WrapperOpenCadException : Exception
     {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="message">Сообщение об ошибке.</param>
         public WrapperOpenCadException(string message) : base(message) { }
     }
 }

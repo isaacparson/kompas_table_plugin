@@ -29,14 +29,11 @@ namespace InventorWrapperLib
         /// </summary>
         private PartComponentDefinition _partCompDef;
 
-        /// <summary>
-        /// Открыть САПР
-        /// </summary>
-        /// <exception cref="WrapperOpenCadException"></exception>
+        ///<inheritdoc cref='IWrapper.OpenCad()'>
         public void OpenCad()
         {
 
-            Type invType = System.Type.GetTypeFromProgID("Inventor.Application");
+            var invType = System.Type.GetTypeFromProgID("Inventor.Application");
             _inventorApp = System.Activator.CreateInstance(invType) as Inventor.Application;
             if (_inventorApp == null)
             {
@@ -46,10 +43,7 @@ namespace InventorWrapperLib
             _inventorApp.Visible = true;
         }
 
-        /// <summary>
-        /// Создать деталь
-        /// </summary>
-        /// <exception cref="WrapperCreatePartException"></exception>
+        ///<inheritdoc cref='IWrapper.CreatePart()'>
         public void CreatePart()
         {
             if (_inventorApp == null)
@@ -66,14 +60,7 @@ namespace InventorWrapperLib
                     "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}"));
         }
 
-        /// <summary>
-        /// Создать эскиз с прямоугольником
-        /// </summary>
-        /// <param name="x">Координата X начала</param>
-        /// <param name="y">Координата Y начала</param>
-        /// <param name="width">Ширина</param>
-        /// <param name="height">Высота</param>
-        /// <param name="name">Имя эскиза</param>
+        ///<inheritdoc cref='IWrapper.NewRectangle(double, double, int, int, string)'>
         public void NewRectangle(double x, double y, int width, int height, string name)
         {
             if (width == 0 || height == 0)
@@ -103,12 +90,7 @@ namespace InventorWrapperLib
             }
         }
 
-        /// <summary>
-        /// Выдавить последний созданный эскиз по оси OZ
-        /// </summary>
-        /// <param name="height">Глубина выдавливания</param>
-        /// <param name="name">Имя результирующего тела</param>
-        /// <param name="positiveDirection">Направление выдавливания - в положительную сторону оси</param>
+        ///<inheritdoc cref='IWrapper.Extrude(int, string, bool)'>
         public void Extrude(int height, string name, bool positiveDirection)
         {
             if (height <= 0)
@@ -123,7 +105,7 @@ namespace InventorWrapperLib
             }
             try
             {
-                Profile profile = _sketch.Profiles.AddForSolid();
+                var profile = _sketch.Profiles.AddForSolid();
                 var extrudeDef = _partCompDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(
                     profile, 
                     PartFeatureOperationEnum.kJoinOperation);
@@ -150,10 +132,7 @@ namespace InventorWrapperLib
             }
         }
 
-        /// <summary>
-        /// Открыта ли САПР
-        /// </summary>
-        /// <returns></returns>
+        ///<inheritdoc cref='IWrapper.IsCadRunning()'>
         public bool IsCadRunning()
         {
             return _inventorApp != null;

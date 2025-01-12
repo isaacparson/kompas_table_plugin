@@ -11,6 +11,10 @@ namespace WrapperLib
     /// </summary>
     public class WrapperExtrudeException : Exception
     {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="message">Сообщение об ошибке.</param>
         public WrapperExtrudeException(string message) : base(message) { }
     }
 }

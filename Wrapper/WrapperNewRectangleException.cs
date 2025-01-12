@@ -11,6 +11,10 @@ namespace WrapperLib
     /// </summary>
     public class WrapperNewRectangleException : Exception
     {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="message">Сообщение об ошибке.</param>
         public WrapperNewRectangleException(string message) : base(message) { }
     }
 }

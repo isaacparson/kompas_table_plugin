@@ -109,7 +109,7 @@
             this.textBoxTopWidth.Name = "textBoxTopWidth";
             this.textBoxTopWidth.Size = new System.Drawing.Size(275, 22);
             this.textBoxTopWidth.TabIndex = 8;
-            this.textBoxTopWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
+            this.textBoxTopWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxOnlyDigitKeyPress);
             // 
             // textBoxTopDepth
             // 
@@ -121,7 +121,7 @@
             this.textBoxTopDepth.Name = "textBoxTopDepth";
             this.textBoxTopDepth.Size = new System.Drawing.Size(275, 22);
             this.textBoxTopDepth.TabIndex = 9;
-            this.textBoxTopDepth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
+            this.textBoxTopDepth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxOnlyDigitKeyPress);
             // 
             // textBoxTopHeight
             // 
@@ -133,7 +133,7 @@
             this.textBoxTopHeight.Name = "textBoxTopHeight";
             this.textBoxTopHeight.Size = new System.Drawing.Size(275, 22);
             this.textBoxTopHeight.TabIndex = 10;
-            this.textBoxTopHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
+            this.textBoxTopHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxOnlyDigitKeyPress);
             // 
             // textBoxLegsWidth
             // 
@@ -145,7 +145,7 @@
             this.textBoxLegsWidth.Name = "textBoxLegsWidth";
             this.textBoxLegsWidth.Size = new System.Drawing.Size(275, 22);
             this.textBoxLegsWidth.TabIndex = 11;
-            this.textBoxLegsWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
+            this.textBoxLegsWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxOnlyDigitKeyPress);
             // 
             // textBoxTableHeight
             // 
@@ -157,7 +157,7 @@
             this.textBoxTableHeight.Name = "textBoxTableHeight";
             this.textBoxTableHeight.Size = new System.Drawing.Size(275, 22);
             this.textBoxTableHeight.TabIndex = 12;
-            this.textBoxTableHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_OnlyDigitKeyPress);
+            this.textBoxTableHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxOnlyDigitKeyPress);
             // 
             // buttonRun
             // 
@@ -171,7 +171,7 @@
             this.buttonRun.TabIndex = 13;
             this.buttonRun.Text = "Построить";
             this.buttonRun.UseVisualStyleBackColor = true;
-            this.buttonRun.Click += new System.EventHandler(this.buttonRun_Click);
+            this.buttonRun.Click += new System.EventHandler(this.ButtonRunClick);
             // 
             // labelError
             // 

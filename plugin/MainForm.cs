@@ -7,6 +7,9 @@ using ApiLogic;
 
 namespace plugin
 {
+    /// <summary>
+    /// Главная форма для ввода значений параметров.
+    /// </summary>
     public partial class MainForm : Form
     {
         /// <summary>
@@ -15,7 +18,7 @@ namespace plugin
         private Builder _builder;
 
         /// <summary>
-        /// ctor.
+        /// Конструктор главной формы.
         /// </summary>
         public MainForm()
         {
@@ -27,7 +30,7 @@ namespace plugin
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonRun_Click(object sender, EventArgs e)
+        private void ButtonRunClick(object sender, EventArgs e)
         {
             var voidTextBoxes = AreTextBoxesVoid();
             if (!voidTextBoxes)
@@ -63,49 +66,35 @@ namespace plugin
         /// <summary>
         /// Метод валидации на пустоту textBox-ов.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Результат выполнения операции. True если пустые поля для ввода. False если пустых нет.</returns>
         private bool AreTextBoxesVoid()
         {
             labelError.Text = "";
-            textBoxTopWidth.BackColor = Color.White;
-            textBoxTopDepth.BackColor = Color.White;
-            textBoxTopHeight.BackColor = Color.White;
-            textBoxLegsWidth.BackColor = Color.White;
-            textBoxTableHeight.BackColor = Color.White;
 
-            bool rv = false;
-            if (textBoxTopWidth.Text == "")
+            List<TextBox> textBoxes = new List<TextBox>()
             {
-                labelError.Text += "Ошибка: значение ширины столешницы не может быть пустым\n";
-                textBoxTopWidth.BackColor = Color.LightPink;
-                rv = true;
-            }
-            if (textBoxTopDepth.Text == "")
+                textBoxTopWidth,
+                textBoxTopDepth,
+                textBoxTopHeight,
+                textBoxLegsWidth,
+                textBoxTableHeight,
+            };
+
+            bool wereVoid = false;
+
+            foreach ( var textBox in textBoxes )
             {
-                labelError.Text += "Ошибка: значение глубины столешницы не может быть пустым\n";
-                textBoxTopDepth.BackColor = Color.LightPink;
-                rv = true;
-            }
-            if (textBoxTopHeight.Text == "")
-            {
-                labelError.Text += "Ошибка: значение толщины столешницы не может быть пустым\n";
-                textBoxTopHeight.BackColor = Color.LightPink;
-                rv = true;
-            }
-            if (textBoxLegsWidth.Text == "")
-            {
-                labelError.Text += "Ошибка: значение ширины ножек не может быть пустым\n";
-                textBoxLegsWidth.BackColor = Color.LightPink;
-                rv = true;
-            }
-            if (textBoxTableHeight.Text == "")
-            {
-                labelError.Text += "Ошибка: значение высоты стола не может быть пустым\n";
-                textBoxTableHeight.BackColor = Color.LightPink;
-                rv = true;
+                textBox.BackColor = Color.White;
+
+                if (textBox.Text == "")
+                {
+                    var parameterName = GetParameterName(textBox);
+                    labelError.Text += "Ошибка: параметр \"" + parameterName + "\" не может быть пустым\n";
+                    wereVoid = true;
+                }
             }
 
-            return rv;
+            return wereVoid;
         }
 
         /// <summary>
@@ -113,7 +102,7 @@ namespace plugin
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TextBox_OnlyDigitKeyPress(object sender, KeyPressEventArgs e)
+        private void TextBoxOnlyDigitKeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
@@ -132,31 +121,28 @@ namespace plugin
 
             foreach (var param in incorrect)
             {
+                if(param.Key != IncorrectParameters.TopAndLegsAreaIncorrect)
+                {
+                    string parameterName = GetParameterName(param.Key);
+                    labelError.Text += "Ошибка: параметр \"" + parameterName + "\" должен входить в диапазон: " + param.Value + "\n";
+                    labelError.BackColor = Color.LightPink;
+                }
+
                 switch (param.Key)
                 {
                     case IncorrectParameters.TopWidthIncorrect:
-                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон: " + param.Value + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxTopWidth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopDepthIncorrect:
-                        labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон: " + param.Value + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxTopDepth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopHeightIncorrect:
-                        labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон: " + param.Value + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxTopHeight.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.LegWidthIncorrect:
-                        labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон: " + param.Value + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxLegsWidth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TableHeightIncorrect:
-                        labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон: " + param.Value + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxTableHeight.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopAndLegsAreaIncorrect:
@@ -171,19 +157,97 @@ namespace plugin
                         break;
                 }
             }
+        }
 
+        /// <summary>
+        /// Метод конвертации TextBox-a в строку с названием соответствующего параметра.
+        /// </summary>
+        /// <param name="textBox">TextBox для которого необходимо узнать имя параметра.</param>
+        /// <returns></returns>
+        private string GetParameterName(TextBox textBox)
+        {
+            string parameterName = "";
+            switch(textBox.Name)
+            {
+                case ("textBoxTopWidth"):
+                {
+                    parameterName = "Ширина столешницы";
+                    break;
+                }
+                case ("textBoxTopDepth"):
+                {
+                    parameterName = "Глубина столешницы";
+                    break;
+                }                
+                case ("textBoxTopHeight"):
+                {
+                    parameterName = "Высота столешницы";
+                    break;
+                }
+                case ("textBoxLegsWidth"):
+                {
+                    parameterName = "Ширина ножек";
+                    break;
+                }
+                case ("textBoxTableHeight"):
+                {
+                    parameterName = "Высота стола";
+                    break;
+                }
+            }
 
+            return parameterName;
+        }
+
+        /// <summary>
+        /// Метод конвертации перечисления неверного параметра в строку с названием соответствующего параметра.
+        /// </summary>
+        /// <param name="parameter">Неверный параметр.</param>
+        /// <returns></returns>
+        private string GetParameterName(IncorrectParameters parameter)
+        {
+            string parameterName = "";
+            switch (parameter)
+            {
+                case (IncorrectParameters.TopWidthIncorrect):
+                {
+                    parameterName = "Ширина столешницы";
+                    break;
+                }
+                case (IncorrectParameters.LegDepthIncorrect):
+                {
+                    parameterName = "Глубина столешницы";
+                    break;
+                }
+                case (IncorrectParameters.TopHeightIncorrect):
+                {
+                    parameterName = "Высота столешницы";
+                    break;
+                }
+                case (IncorrectParameters.LegWidthIncorrect):
+                {
+                    parameterName = "Ширина ножек";
+                    break;
+                }
+                case (IncorrectParameters.TableHeightIncorrect):
+                {
+                    parameterName = "Высота стола";
+                    break;
+                }
+            }
+
+            return parameterName;
         }
 
         /// <summary>
         /// Метод построения модели.
         /// </summary>
         /// <param name="parameters"></param>
-        void BuildModel(Parameters parameters)
+        private void BuildModel(Parameters parameters)
         {
             Cad cad = radioButtonKompas.Checked
                 ? Cad.Kompas
-                : Cad.AutoCad;
+                : Cad.Inventor;
 
             _builder = new Builder(parameters, cad);
             _builder.Build();
