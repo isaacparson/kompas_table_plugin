@@ -1,4 +1,5 @@
-﻿using System.CodeDom;
+﻿using logic;
+using System.CodeDom;
 
 namespace ParametersLogic
 {
@@ -17,7 +18,7 @@ namespace ParametersLogic
             _value = value;
             if (value < minValue || value > maxValue)
             {
-                throw new System.Exception("[" + minValue + ";" + maxValue + "]");
+                throw new ParameterOutOfRangeException("[" + minValue + ";" + maxValue + "]");
             }
         }
 

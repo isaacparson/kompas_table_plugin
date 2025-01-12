@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using logic;
+using System;
+using System.Collections.Generic;
 
 namespace ParametersLogic
 {
@@ -53,53 +55,58 @@ namespace ParametersLogic
             var tableHeight = parameters[ParamType.TableHeight];
             int twoLegsWidth = legWidth * 2 + 200;
 
+            bool wereIncorrect = false;
+
             try
             {
                 Parameter topWidthParameter = new Parameter(topWidth, 500, 5000);
                 resultParameters.Add(ParamType.TopWidth, topWidthParameter);
             }
-            catch(System.Exception ex)
+            catch(ParameterOutOfRangeException ex)
             {
                 incorrect.Add(IncorrectParameters.TopWidthIncorrect, ex.Message);
+                wereIncorrect = true;
             }
             try
             {
                 Parameter topDepthParameter = new Parameter(topDepth, 500, 5000);
                 resultParameters.Add(ParamType.TopDepth, topDepthParameter);
             }
-            catch (System.Exception ex)
+            catch (ParameterOutOfRangeException ex)
             {
                 incorrect.Add(IncorrectParameters.TopDepthIncorrect, ex.Message);
+                wereIncorrect = true;
             }
             try
             {
                 Parameter topHeightParameter = new Parameter(topHeight, 16, 100);
                 resultParameters.Add(ParamType.TopHeight, topHeightParameter);
             }
-            catch (System.Exception ex)
+            catch (ParameterOutOfRangeException ex)
             {
                 incorrect.Add(IncorrectParameters.TopHeightIncorrect, ex.Message);
+                wereIncorrect = true;
             }
             try
             {
                 Parameter legWidthParameter = new Parameter(legWidth, 20, 200);
                 resultParameters.Add(ParamType.LegWidth, legWidthParameter);
             }
-            catch (System.Exception ex)
+            catch (ParameterOutOfRangeException ex)
             {
                 incorrect.Add(IncorrectParameters.LegWidthIncorrect, ex.Message);
+                wereIncorrect = true;
             }
             try
             {
                 Parameter tableHeightParameter = new Parameter(tableHeight, 500, 1400);
                 resultParameters.Add(ParamType.TableHeight, tableHeightParameter);
             }
-            catch (System.Exception ex)
+            catch (ParameterOutOfRangeException ex)
             {
                 incorrect.Add(IncorrectParameters.TableHeightIncorrect, ex.Message);
+                wereIncorrect = true;
             }
-
-            bool wereIncorrect = false;
 
             if ((topWidth < twoLegsWidth || topDepth < twoLegsWidth) 
                 && !wereIncorrect)
@@ -108,23 +115,6 @@ namespace ParametersLogic
                 wereIncorrect = true;
             }
             return incorrect;
-        }
-
-        /// <summary>
-        /// Проверить значение параметра и добавить его к списку некорректных параметров в случае неудачи.
-        /// </summary>
-        /// <param name="incorrect">Список параметров, непрошедших валидацию</param>
-        /// <param name="type">Тип параметра</param>
-        /// <param name="value">Параметр</param>
-        private void AddIfIncorrect(
-            List<IncorrectParameters> incorrect, 
-            IncorrectParameters type, 
-            Parameter value)
-        {
-            if (value.Value < value.MinValue || value.Value > value.MaxValue)
-            {
-                incorrect.Add(IncorrectParameters.TopWidthIncorrect);
-            }
         }
     }
 }
