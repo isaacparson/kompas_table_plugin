@@ -214,7 +214,7 @@ namespace plugin
                     parameterName = "Ширина столешницы";
                     break;
                 }
-                case (IncorrectParameters.LegDepthIncorrect):
+                case (IncorrectParameters.TopDepthIncorrect):
                 {
                     parameterName = "Глубина столешницы";
                     break;

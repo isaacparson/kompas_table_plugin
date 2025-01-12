@@ -73,6 +73,7 @@ namespace ParametersLogic
                 try
                 {
                     Parameter newParameter = new Parameter(parameter.Value, minValue, maxValue);
+                    resultParameters.Add(parameter.Key, newParameter);
                 }
                 catch(ParameterOutOfRangeException ex)
                 {
