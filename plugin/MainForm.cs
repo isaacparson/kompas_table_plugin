@@ -7,21 +7,35 @@ using ApiLogic;
 
 namespace plugin
 {
+    /// <summary>
+    /// Главная форма для ввода значений параметров.
+    /// </summary>
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Объект класса построителя стола.
+        /// </summary>
         private Builder _builder;
 
+        /// <summary>
+        /// Конструктор главной формы.
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void buttonRun_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Обработчик нажатия на кнопку Run.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonRunClick(object sender, EventArgs e)
         {
             var voidTextBoxes = AreTextBoxesVoid();
             if (!voidTextBoxes)
             {
-                var paramDict = new Dictionary<ParamType, Parameter>();
+                var paramDict = new Dictionary<ParamType, int>();
 
                 int.TryParse(textBoxTopWidth.Text, out int topWidth);
                 int.TryParse(textBoxTopDepth.Text, out int topDepth);
@@ -29,11 +43,11 @@ namespace plugin
                 int.TryParse(textBoxLegsWidth.Text, out int legsWidth);
                 int.TryParse(textBoxTableHeight.Text, out int tableHeight);
 
-                paramDict.Add(ParamType.TopWidth, new Parameter(topWidth));
-                paramDict.Add(ParamType.TopDepth, new Parameter(topDepth));
-                paramDict.Add(ParamType.TopHeight, new Parameter(topHeight));
-                paramDict.Add(ParamType.LegWidth, new Parameter(legsWidth));
-                paramDict.Add(ParamType.TableHeight, new Parameter(tableHeight));
+                paramDict.Add(ParamType.TopWidth, topWidth);
+                paramDict.Add(ParamType.TopDepth, topDepth);
+                paramDict.Add(ParamType.TopHeight, topHeight);
+                paramDict.Add(ParamType.LegWidth, legsWidth);
+                paramDict.Add(ParamType.TableHeight, tableHeight);
 
                 var parameters = new Parameters();
                 var incorrect = parameters.SetParameters(paramDict);
@@ -49,51 +63,46 @@ namespace plugin
             }
         }
 
+        /// <summary>
+        /// Метод валидации на пустоту textBox-ов.
+        /// </summary>
+        /// <returns>Результат выполнения операции. True если пустые поля для ввода. False если пустых нет.</returns>
         private bool AreTextBoxesVoid()
         {
             labelError.Text = "";
-            textBoxTopWidth.BackColor = Color.White;
-            textBoxTopDepth.BackColor = Color.White;
-            textBoxTopHeight.BackColor = Color.White;
-            textBoxLegsWidth.BackColor = Color.White;
-            textBoxTableHeight.BackColor = Color.White;
 
-            bool rv = false;
-            if (textBoxTopWidth.Text == "")
+            List<TextBox> textBoxes = new List<TextBox>()
             {
-                labelError.Text += "Ошибка: значение ширины столешницы не может быть пустым\n";
-                textBoxTopWidth.BackColor = Color.LightPink;
-                rv = true;
-            }
-            if (textBoxTopDepth.Text == "")
+                textBoxTopWidth,
+                textBoxTopDepth,
+                textBoxTopHeight,
+                textBoxLegsWidth,
+                textBoxTableHeight,
+            };
+
+            bool wereVoid = false;
+
+            foreach ( var textBox in textBoxes )
             {
-                labelError.Text += "Ошибка: значение глубины столешницы не может быть пустым\n";
-                textBoxTopDepth.BackColor = Color.LightPink;
-                rv = true;
-            }
-            if (textBoxTopHeight.Text == "")
-            {
-                labelError.Text += "Ошибка: значение толщины столешницы не может быть пустым\n";
-                textBoxTopHeight.BackColor = Color.LightPink;
-                rv = true;
-            }
-            if (textBoxLegsWidth.Text == "")
-            {
-                labelError.Text += "Ошибка: значение ширины ножек не может быть пустым\n";
-                textBoxLegsWidth.BackColor = Color.LightPink;
-                rv = true;
-            }
-            if (textBoxTableHeight.Text == "")
-            {
-                labelError.Text += "Ошибка: значение высоты стола не может быть пустым\n";
-                textBoxTableHeight.BackColor = Color.LightPink;
-                rv = true;
+                textBox.BackColor = Color.White;
+
+                if (textBox.Text == "")
+                {
+                    var parameterName = GetParameterName(textBox);
+                    labelError.Text += "Ошибка: параметр \"" + parameterName + "\" не может быть пустым\n";
+                    wereVoid = true;
+                }
             }
 
-            return rv;
+            return wereVoid;
         }
 
-        private void TextBox_OnlyDigitKeyPress(object sender, KeyPressEventArgs e)
+        /// <summary>
+        /// Метод устанавливает ограничение на ввод в textBox-ы только цифр.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBoxOnlyDigitKeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
@@ -101,47 +110,39 @@ namespace plugin
             }
         }
 
-        private void PrintErrors(List<IncorrectParameters> incorrect, Parameters parameters)
+        /// <summary>
+        /// Метод вывода ошибок в форму.
+        /// </summary>
+        /// <param name="incorrect"></param>
+        /// <param name="parameters"></param>
+        private void PrintErrors(Dictionary<IncorrectParameters, string> incorrect, Parameters parameters)
         {
             var dict = parameters.GetParameters();
 
             foreach (var param in incorrect)
             {
-                switch (param)
+                if(param.Key != IncorrectParameters.TopAndLegsAreaIncorrect)
+                {
+                    string parameterName = GetParameterName(param.Key);
+                    labelError.Text += "Ошибка: параметр \"" + parameterName + "\" должен входить в диапазон: " + param.Value + "\n";
+                    labelError.BackColor = Color.LightPink;
+                }
+
+                switch (param.Key)
                 {
                     case IncorrectParameters.TopWidthIncorrect:
-                        var value = dict[ParamType.TopWidth];
-                        labelError.Text += "Ошибка: параметр \"ширина столешницы\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxTopWidth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopDepthIncorrect:
-                        value = dict[ParamType.TopDepth];
-                        labelError.Text += "Ошибка: параметр \"глубина столешницы\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxTopDepth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopHeightIncorrect:
-                        value = dict[ParamType.TopHeight];
-                        labelError.Text += "Ошибка: параметр \"высота столешницы\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxTopHeight.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.LegWidthIncorrect:
-                        value = dict[ParamType.LegWidth];
-                        labelError.Text += "Ошибка: параметр \"ширина ножек\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxLegsWidth.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TableHeightIncorrect:
-                        value = dict[ParamType.TableHeight];
-                        labelError.Text += "Ошибка: параметр \"высота стола\" должен входить в диапазон от" + 
-                            value.MinValue + "до" + value.MaxValue + "\n";
-                        labelError.BackColor = Color.LightPink;
                         textBoxTableHeight.BackColor = Color.LightPink;
                         break;
                     case IncorrectParameters.TopAndLegsAreaIncorrect:
@@ -158,11 +159,53 @@ namespace plugin
             }
         }
 
-        void BuildModel(Parameters parameters)
+        /// <summary>
+        /// Метод конвертации TextBox-a в строку с названием соответствующего параметра.
+        /// </summary>
+        /// <param name="textBox">TextBox для которого необходимо узнать имя параметра.</param>
+        /// <returns></returns>
+        private string GetParameterName(TextBox textBox)
+        {
+            var dict = new Dictionary<TextBox, string>
+            {
+                {textBoxTopWidth, "Ширина столешницы"},
+                {textBoxTopDepth, "Глубина столешницы"},
+                {textBoxTopHeight, "Высота столешницы"},
+                {textBoxLegsWidth, "Ширина ножек"},
+                {textBoxTableHeight, "Высота стола"},
+            };
+
+            return dict[textBox];
+        }
+
+        /// <summary>
+        /// Метод конвертации перечисления неверного параметра в строку с названием соответствующего параметра.
+        /// </summary>
+        /// <param name="parameter">Неверный параметр.</param>
+        /// <returns></returns>
+        private string GetParameterName(IncorrectParameters parameter)
+        {
+            var dict = new Dictionary<IncorrectParameters, string>
+            {
+                {IncorrectParameters.TopWidthIncorrect, "Ширина столешницы"},
+                {IncorrectParameters.TopDepthIncorrect, "Глубина столешницы"},
+                {IncorrectParameters.TopHeightIncorrect, "Высота столешницы"},
+                {IncorrectParameters.LegWidthIncorrect, "Ширина ножек"},
+                {IncorrectParameters.TableHeightIncorrect, "Высота стола"},
+            };
+
+            return dict[parameter];
+        }
+
+        /// <summary>
+        /// Метод построения модели.
+        /// </summary>
+        /// <param name="parameters"></param>
+        private void BuildModel(Parameters parameters)
         {
             Cad cad = radioButtonKompas.Checked
                 ? Cad.Kompas
-                : Cad.AutoCad;
+                : Cad.Inventor;
 
             _builder = new Builder(parameters, cad);
             _builder.Build();

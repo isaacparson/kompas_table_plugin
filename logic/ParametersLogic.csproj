@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="IncorrectParameters.cs" />
     <Compile Include="Parameter.cs" />
+    <Compile Include="ParameterOutOfRangeException.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="ParamType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

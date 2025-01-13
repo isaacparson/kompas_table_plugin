@@ -9,7 +9,7 @@ namespace InventorWrapperTests
         public void CreatePartTest()
         {
             WrapperFactory factory = new WrapperFactory();
-            var wrapper = factory.MakeWrapper(Cad.AutoCad);
+            var wrapper = factory.MakeWrapper(Cad.Inventor);
             Assert.Throws<WrapperCreatePartException>(() => wrapper.CreatePart());
 
             wrapper.OpenCad();
@@ -20,7 +20,7 @@ namespace InventorWrapperTests
         public void NewRectangleTest()
         {
             WrapperFactory factory = new WrapperFactory();
-            var wrapper = factory.MakeWrapper(Cad.AutoCad);
+            var wrapper = factory.MakeWrapper(Cad.Inventor);
             wrapper.OpenCad();
 
             Assert.Throws<WrapperNewRectangleException>(() => wrapper.NewRectangle(0, 0, 10, 10, "Some name"));
@@ -35,7 +35,7 @@ namespace InventorWrapperTests
         public void ExtrudeTest()
         {
             WrapperFactory factory = new WrapperFactory();
-            var wrapper = factory.MakeWrapper(Cad.AutoCad);
+            var wrapper = factory.MakeWrapper(Cad.Inventor);
             wrapper.OpenCad();
 
             Assert.DoesNotThrow(() => wrapper.CreatePart());

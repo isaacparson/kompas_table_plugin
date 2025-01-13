@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WrapperLib
+namespace logic
 {
     /// <summary>
-    /// Исключение открытия САПР
+    /// Исключение создания детали
     /// </summary>
-    public class WrapperOpenCadException : Exception
+    public class ParameterOutOfRangeException : Exception
     {
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="message">Сообщение об ошибке.</param>
-        public WrapperOpenCadException(string message) : base(message) { }
+        public ParameterOutOfRangeException(string message) : base(message) { }
     }
 }

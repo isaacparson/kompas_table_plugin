@@ -1,4 +1,5 @@
-﻿using System.CodeDom;
+﻿using logic;
+using System.CodeDom;
 
 namespace ParametersLogic
 {
@@ -7,9 +8,13 @@ namespace ParametersLogic
     /// </summary>
     public class Parameter
     {
-        int _value;
         /// <summary>
-        /// ctor.
+        /// Значение параметра.
+        /// </summary>
+        private int _value;
+
+        /// <summary>
+        /// Конструктор.
         /// </summary>
         /// <param name="value">Числовое значение параметра</param>
         public Parameter(int value, int minValue, int maxValue)
@@ -17,7 +22,7 @@ namespace ParametersLogic
             _value = value;
             if (value < minValue || value > maxValue)
             {
-                throw new System.Exception();
+                throw new ParameterOutOfRangeException("[" + minValue + ";" + maxValue + "]");
             }
         }
 

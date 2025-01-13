@@ -1,136 +1,114 @@
-﻿using System.Collections.Generic;
+﻿using logic;
+using System;
+using System.Collections.Generic;
 
 namespace ParametersLogic
 {
     /// <summary>
-    /// Набор параметров, реализующий валидацию их значений
+    /// Набор параметров, реализующий валидацию их значений.
     /// </summary>
     public class Parameters
     {
         /// <summary>
-        /// Словарь параметров
+        /// Словарь параметров.
         /// </summary>
         public Dictionary<ParamType, Parameter> Params { get; set; }
 
         /// <summary>
-        /// Установить параметры и провалидировать их значения
+        /// Установить параметры и провалидировать их значения.
         /// </summary>
-        /// <param name="parameters">Словарь параметров</param>
-        /// <returns>Список параметров, непрошедших валидацию</returns>
-        public List<IncorrectParameters> SetParameters(Dictionary<ParamType, Parameter> parameters)
+        /// <param name="parameters">Словарь параметров.</param>
+        /// <returns>Список параметров, непрошедших валидацию.</returns>
+        public Dictionary<IncorrectParameters, string> SetParameters(Dictionary<ParamType, int> parameters)
         {
-            var incorrect = Validate(parameters);
-            Params = parameters;
+            Dictionary<ParamType, Parameter> resultParameters = new Dictionary<ParamType, Parameter>();
+            var incorrect = Validate(parameters, resultParameters);
+            Params = resultParameters;
             return incorrect;
         }
 
         /// <summary>
-        /// Получить параметры
+        /// Получить параметры.
         /// </summary>
-        /// <returns>Словарь параметров</returns>
+        /// <returns>Словарь параметров.</returns>
         public Dictionary<ParamType, Parameter> GetParameters()
         {
             return Params;
         }
 
         /// <summary>
-        /// Провести валидацию переданных параметров
+        /// Провести валидацию переданных параметров.
         /// </summary>
-        /// <param name="parameters">Словарь параметров</param>
+        /// <param name="parameters">Словарь параметров.</param>
         /// <returns>Список параметров, непрошедших валидацию.
-        /// Пустой список если все параметры корректны</returns>
-        private List<IncorrectParameters> Validate(Dictionary<ParamType, Parameter> parameters)
+        /// Пустой список если все параметры корректны.</returns>
+        private Dictionary<IncorrectParameters, string> Validate(
+            Dictionary<ParamType, int> parameters, 
+            Dictionary<ParamType, Parameter> resultParameters)
         {
-            var incorrect = new List<IncorrectParameters>();
+            var incorrect = new Dictionary<IncorrectParameters, string>();
 
             var legWidth = parameters[ParamType.LegWidth];
             var topWidth = parameters[ParamType.TopWidth];
             var topDepth = parameters[ParamType.TopDepth];
+            var topHeight = parameters[ParamType.TopHeight];
+            var tableHeight = parameters[ParamType.TableHeight];
+            int twoLegsWidth = legWidth * 2 + 200;
 
-            int twoLegsWidth = legWidth.Value * 2 + 200;
+            var minMaxValues = new Dictionary<ParamType, Tuple<int, int>>
+            {
+                { ParamType.TopWidth, new Tuple<int, int>(500, 5000) },
+                { ParamType.TopDepth, new Tuple<int, int>(500, 5000) },
+                { ParamType.TopHeight, new Tuple<int, int>(16, 100) },
+                { ParamType.LegWidth, new Tuple<int, int>(20, 200) },
+                { ParamType.TableHeight, new Tuple<int, int>(500, 1400) },
+            };
+
             bool wereIncorrect = false;
 
-            foreach (var parameter in parameters)
+            foreach(var parameter in parameters)
             {
-                var value = parameter.Value;
-                switch (parameter.Key)
+                var minValue = minMaxValues[parameter.Key].Item1;
+                var maxValue = minMaxValues[parameter.Key].Item2;
+                try
                 {
-                    case (ParamType.TopWidth):
-                        {
-                            value.MinValue = 500;
-                            value.MaxValue = 5000;
-                            AddIfIncorrect(
-                                incorrect, 
-                                IncorrectParameters.TopWidthIncorrect, 
-                                value);
-                            break;
-                        }
-                    case (ParamType.TopDepth):
-                        {
-                            value.MinValue = 500;
-                            value.MaxValue = 5000;
-                            AddIfIncorrect(
-                                incorrect, 
-                                IncorrectParameters.TopDepthIncorrect, 
-                                value);
-                            break;
-                        }
-                    case (ParamType.LegWidth):
-                        {
-                            value.MinValue = 20;
-                            value.MaxValue = 200;
-                            AddIfIncorrect(
-                                incorrect, 
-                                IncorrectParameters.LegWidthIncorrect, 
-                                value);
-                            break;
-                        }
-                    case (ParamType.TableHeight):
-                        {
-                            value.MinValue = 500;
-                            value.MaxValue = 1400;
-                            AddIfIncorrect(
-                                incorrect, 
-                                IncorrectParameters.TableHeightIncorrect, 
-                                value);
-                            break;
-                        }
-                    case (ParamType.TopHeight):
-                        {
-                            value.MinValue = 16;
-                            value.MaxValue = 100;
-                            AddIfIncorrect(
-                                incorrect, 
-                                IncorrectParameters.TopHeightIncorrect, 
-                                value);
-                            break;
-                        }
+                    Parameter newParameter = new Parameter(parameter.Value, minValue, maxValue);
+                    resultParameters.Add(parameter.Key, newParameter);
+                }
+                catch(ParameterOutOfRangeException ex)
+                {
+                    var incorrectType = GetIncorrectParameter(parameter.Key);
+                    incorrect.Add(incorrectType, ex.Message);
+                    wereIncorrect = true;
                 }
             }
-            if ((topWidth.Value < twoLegsWidth || topDepth.Value < twoLegsWidth) 
+
+            if ((topWidth < twoLegsWidth || topDepth < twoLegsWidth) 
                 && !wereIncorrect)
             {
-                incorrect.Add(IncorrectParameters.TopAndLegsAreaIncorrect);
+                incorrect.Add(IncorrectParameters.TopAndLegsAreaIncorrect, "");
                 wereIncorrect = true;
             }
             return incorrect;
         }
 
         /// <summary>
-        /// Проверить значение параметра и добавить его к списку некорректных параметров в случае неудачи.
+        /// Получить тип некорректного параметра, который относится к определенному типу параметра.
         /// </summary>
-        /// <param name="incorrect">Список параметров, непрошедших валидацию</param>
-        /// <param name="type">Тип параметра</param>
-        /// <param name="value">Параметр</param>
-        private void AddIfIncorrect(
-            List<IncorrectParameters> incorrect, 
-            IncorrectParameters type, 
-            Parameter value)
+        /// <param name="type">Тип параметра.</param>
+        /// <returns></returns>
+        private IncorrectParameters GetIncorrectParameter(ParamType type)
         {
-            if (value.Value < value.MinValue || value.Value > value.MaxValue)
+            var dict = new Dictionary<ParamType, IncorrectParameters>
             {
-                incorrect.Add(IncorrectParameters.TopWidthIncorrect);
-            }
+                {ParamType.TopWidth, IncorrectParameters.TopWidthIncorrect},
+                {ParamType.TopDepth, IncorrectParameters.TopDepthIncorrect},
+                {ParamType.TopHeight, IncorrectParameters.TopHeightIncorrect},
+                {ParamType.LegWidth, IncorrectParameters.LegWidthIncorrect},
+                {ParamType.TableHeight, IncorrectParameters.TableHeightIncorrect},
+            };
+
+            return dict[type];
         }
     }
 }

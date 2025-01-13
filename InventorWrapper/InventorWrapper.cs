@@ -29,10 +29,11 @@ namespace InventorWrapperLib
         /// </summary>
         private PartComponentDefinition _partCompDef;
 
+        ///<inheritdoc cref='IWrapper.OpenCad()'>
         public void OpenCad()
         {
 
-            Type invType = System.Type.GetTypeFromProgID("Inventor.Application");
+            var invType = System.Type.GetTypeFromProgID("Inventor.Application");
             _inventorApp = System.Activator.CreateInstance(invType) as Inventor.Application;
             if (_inventorApp == null)
             {
@@ -42,6 +43,7 @@ namespace InventorWrapperLib
             _inventorApp.Visible = true;
         }
 
+        ///<inheritdoc cref='IWrapper.CreatePart()'>
         public void CreatePart()
         {
             if (_inventorApp == null)
@@ -58,6 +60,7 @@ namespace InventorWrapperLib
                     "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}"));
         }
 
+        ///<inheritdoc cref='IWrapper.NewRectangle(double, double, int, int, string)'>
         public void NewRectangle(double x, double y, int width, int height, string name)
         {
             if (width == 0 || height == 0)
@@ -87,6 +90,7 @@ namespace InventorWrapperLib
             }
         }
 
+        ///<inheritdoc cref='IWrapper.Extrude(int, string, bool)'>
         public void Extrude(int height, string name, bool positiveDirection)
         {
             if (height <= 0)
@@ -101,7 +105,7 @@ namespace InventorWrapperLib
             }
             try
             {
-                Profile profile = _sketch.Profiles.AddForSolid();
+                var profile = _sketch.Profiles.AddForSolid();
                 var extrudeDef = _partCompDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(
                     profile, 
                     PartFeatureOperationEnum.kJoinOperation);
@@ -128,6 +132,7 @@ namespace InventorWrapperLib
             }
         }
 
+        ///<inheritdoc cref='IWrapper.IsCadRunning()'>
         public bool IsCadRunning()
         {
             return _inventorApp != null;

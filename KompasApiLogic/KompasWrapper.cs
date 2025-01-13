@@ -31,6 +31,7 @@ namespace KompasWrapperLib
         /// </summary>
         private ISketch _theLastCreatedSketch;
 
+        ///<inheritdoc cref='IWrapper.NewRectangle(double, double, int, int, string)'>
         public void NewRectangle(double x, double y, int width, int height, string name)
         {
             if (width == 0 || height == 0)
@@ -43,7 +44,7 @@ namespace KompasWrapperLib
                 throw new WrapperNewRectangleException(
                     "Rectangle build failed: there is no part for sketch");
             }
-            ISketch sketch = _modelContainer.Sketchs.Add();
+            var sketch = _modelContainer.Sketchs.Add();
             sketch.Plane = _part.DefaultObject[ksObj3dTypeEnum.o3d_planeXOY];
             sketch.Name = "Эскиз: " + name;
             sketch.Hidden = false;
@@ -52,13 +53,13 @@ namespace KompasWrapperLib
                 throw new WrapperNewRectangleException("Sketch update failed");
             }
 
-            IKompasDocument documentSketch = sketch.BeginEdit();
-            IKompasDocument2D document2D = (IKompasDocument2D)documentSketch;
-            IViewsAndLayersManager viewsAndLayersManager = document2D.ViewsAndLayersManager;
-            IView view = viewsAndLayersManager.Views.ActiveView;
-            IDrawingContainer drawingContainer = (IDrawingContainer)view;
+            var documentSketch = sketch.BeginEdit();
+            var document2D = (IKompasDocument2D)documentSketch;
+            var viewsAndLayersManager = document2D.ViewsAndLayersManager;
+            var view = viewsAndLayersManager.Views.ActiveView;
+            var drawingContainer = (IDrawingContainer)view;
 
-            IRectangle rectangle = drawingContainer.Rectangles.Add();
+            var rectangle = drawingContainer.Rectangles.Add();
             rectangle.Style = (int)Kompas6Constants.ksCurveStyleEnum.ksCSNormal;
             rectangle.X = x;
             rectangle.Y = y;
@@ -77,6 +78,7 @@ namespace KompasWrapperLib
             _theLastCreatedSketch = sketch;
         }
 
+        ///<inheritdoc cref='IWrapper.Extrude(int, string, bool)'>
         public void Extrude(int height, string name, bool positiveDirection)
         {
             if (height <= 0)
@@ -90,8 +92,8 @@ namespace KompasWrapperLib
                     "Extrude failed: there is no sketch to extrude");
             }
 
-            IExtrusions extrusions = _modelContainer.Extrusions;
-            IExtrusion extrusion = extrusions.Add(Kompas6Constants3D.ksObj3dTypeEnum.o3d_bossExtrusion);
+            var extrusions = _modelContainer.Extrusions;
+            var extrusion = extrusions.Add(Kompas6Constants3D.ksObj3dTypeEnum.o3d_bossExtrusion);
             extrusion.Direction = Kompas6Constants3D.ksDirectionTypeEnum.dtNormal;
             extrusion.Name = "Элемент выдавливания: " + name;
             extrusion.Hidden = false;
@@ -107,7 +109,7 @@ namespace KompasWrapperLib
                 extrusion.Depth[true] = -height;
             }
             
-            IExtrusion1 extrusion1 = (IExtrusion1)extrusion;
+            var extrusion1 = (IExtrusion1)extrusion;
             extrusion1.Profile = _theLastCreatedSketch;
             extrusion1.DirectionObject = _theLastCreatedSketch;
             
@@ -117,10 +119,11 @@ namespace KompasWrapperLib
             }
         }
 
+        ///<inheritdoc cref='IWrapper.OpenCad()'>
         public void OpenCad()
         {
-            Type t = Type.GetTypeFromProgID("KOMPAS.Application.7");
-            _kompas7 = (IKompasAPIObject)Activator.CreateInstance(t);
+            var type = Type.GetTypeFromProgID("KOMPAS.Application.7");
+            _kompas7 = (IKompasAPIObject)Activator.CreateInstance(type);
             if (_kompas7 == null)
             {
                 throw new WrapperOpenCadException(
@@ -129,6 +132,7 @@ namespace KompasWrapperLib
             _kompas7.Application.Visible = true;
         }
 
+        ///<inheritdoc cref='IWrapper.CreatePart()'>
         public void CreatePart()
         {
             if (_kompas7 == null)
@@ -137,12 +141,13 @@ namespace KompasWrapperLib
                     "Create part failed: kompas is not running");
             }
             _kompas7.Application.Documents.Add(DocumentTypeEnum.ksDocumentPart);
-            IKompasDocument3D document3D = (IKompasDocument3D)_kompas7.Application.ActiveDocument;
+            var document3D = (IKompasDocument3D)_kompas7.Application.ActiveDocument;
             _part = document3D.TopPart;
             _modelContainer = (IModelContainer)_part;
             System.Threading.Thread.Sleep(100);
         }
 
+        ///<inheritdoc cref='IWrapper.IsCadRunning()'>
         public bool IsCadRunning()
         {
             return _kompas7 != null;

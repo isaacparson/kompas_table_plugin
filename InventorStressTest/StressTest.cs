@@ -17,17 +17,17 @@ namespace InventorStressTest
             int legsWidth = 20;
             int tableHeight = 500;
 
-            var dict = new Dictionary<ParamType, Parameter>();
-            dict.Add(ParamType.TopWidth, new Parameter(topWidth));
-            dict.Add(ParamType.TopDepth, new Parameter(topDepth));
-            dict.Add(ParamType.TopHeight, new Parameter(topHeight));
-            dict.Add(ParamType.LegWidth, new Parameter(legsWidth));
-            dict.Add(ParamType.TableHeight, new Parameter(tableHeight));
+            var dict = new Dictionary<ParamType, int>();
+            dict.Add(ParamType.TopWidth, topWidth);
+            dict.Add(ParamType.TopDepth, topDepth);
+            dict.Add(ParamType.TopHeight, topHeight);
+            dict.Add(ParamType.LegWidth, legsWidth);
+            dict.Add(ParamType.TableHeight, tableHeight);
 
             var parameters = new Parameters();
             parameters.SetParameters(dict);
 
-            var builder = new Builder(parameters, Cad.AutoCad);
+            var builder = new Builder(parameters, Cad.Inventor);
             var stopWatch = new Stopwatch();
             var count = 0;
 

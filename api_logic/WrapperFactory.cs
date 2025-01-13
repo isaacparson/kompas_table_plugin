@@ -19,7 +19,7 @@ namespace ApiLogic
             switch (cad)
             {
                 case Cad.Kompas: return new KompasWrapper();
-                case Cad.AutoCad: return new InventorWrapper();
+                case Cad.Inventor: return new InventorWrapper();
                 default: return new KompasWrapper();
             }
         }
