@@ -104,27 +104,22 @@ namespace ParametersLogic
                 case ParamType.TopWidth:
                 {
                     return IncorrectParameters.TopWidthIncorrect;
-                    break;
                 }
                 case ParamType.TopDepth:
                 {
                     return IncorrectParameters.TopDepthIncorrect;
-                    break;
                 }
                 case ParamType.TopHeight:
                 {
                     return IncorrectParameters.TopHeightIncorrect;
-                    break;
                 }
                 case ParamType.LegWidth:
                 {
                     return IncorrectParameters.LegWidthIncorrect;
-                    break;
                 }
                 case ParamType.TableHeight:
                 {
                     return IncorrectParameters.TableHeightIncorrect;
-                    break;
                 }
                 default:
                 {
