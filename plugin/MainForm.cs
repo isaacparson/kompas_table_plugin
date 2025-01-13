@@ -166,37 +166,16 @@ namespace plugin
         /// <returns></returns>
         private string GetParameterName(TextBox textBox)
         {
-            string parameterName = "";
-            switch(textBox.Name)
+            var dict = new Dictionary<TextBox, string>
             {
-                case ("textBoxTopWidth"):
-                {
-                    parameterName = "Ширина столешницы";
-                    break;
-                }
-                case ("textBoxTopDepth"):
-                {
-                    parameterName = "Глубина столешницы";
-                    break;
-                }                
-                case ("textBoxTopHeight"):
-                {
-                    parameterName = "Высота столешницы";
-                    break;
-                }
-                case ("textBoxLegsWidth"):
-                {
-                    parameterName = "Ширина ножек";
-                    break;
-                }
-                case ("textBoxTableHeight"):
-                {
-                    parameterName = "Высота стола";
-                    break;
-                }
-            }
+                {textBoxTopWidth, "Ширина столешницы"},
+                {textBoxTopDepth, "Глубина столешницы"},
+                {textBoxTopHeight, "Высота столешницы"},
+                {textBoxLegsWidth, "Ширина ножек"},
+                {textBoxTableHeight, "Высота стола"},
+            };
 
-            return parameterName;
+            return dict[textBox];
         }
 
         /// <summary>
@@ -206,37 +185,16 @@ namespace plugin
         /// <returns></returns>
         private string GetParameterName(IncorrectParameters parameter)
         {
-            string parameterName = "";
-            switch (parameter)
+            var dict = new Dictionary<IncorrectParameters, string>
             {
-                case (IncorrectParameters.TopWidthIncorrect):
-                {
-                    parameterName = "Ширина столешницы";
-                    break;
-                }
-                case (IncorrectParameters.TopDepthIncorrect):
-                {
-                    parameterName = "Глубина столешницы";
-                    break;
-                }
-                case (IncorrectParameters.TopHeightIncorrect):
-                {
-                    parameterName = "Высота столешницы";
-                    break;
-                }
-                case (IncorrectParameters.LegWidthIncorrect):
-                {
-                    parameterName = "Ширина ножек";
-                    break;
-                }
-                case (IncorrectParameters.TableHeightIncorrect):
-                {
-                    parameterName = "Высота стола";
-                    break;
-                }
-            }
+                {IncorrectParameters.TopWidthIncorrect, "Ширина столешницы"},
+                {IncorrectParameters.TopDepthIncorrect, "Глубина столешницы"},
+                {IncorrectParameters.TopHeightIncorrect, "Высота столешницы"},
+                {IncorrectParameters.LegWidthIncorrect, "Ширина ножек"},
+                {IncorrectParameters.TableHeightIncorrect, "Высота стола"},
+            };
 
-            return parameterName;
+            return dict[parameter];
         }
 
         /// <summary>

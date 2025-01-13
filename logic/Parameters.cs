@@ -99,33 +99,16 @@ namespace ParametersLogic
         /// <returns></returns>
         private IncorrectParameters GetIncorrectParameter(ParamType type)
         {
-            switch(type)
+            var dict = new Dictionary<ParamType, IncorrectParameters>
             {
-                case ParamType.TopWidth:
-                {
-                    return IncorrectParameters.TopWidthIncorrect;
-                }
-                case ParamType.TopDepth:
-                {
-                    return IncorrectParameters.TopDepthIncorrect;
-                }
-                case ParamType.TopHeight:
-                {
-                    return IncorrectParameters.TopHeightIncorrect;
-                }
-                case ParamType.LegWidth:
-                {
-                    return IncorrectParameters.LegWidthIncorrect;
-                }
-                case ParamType.TableHeight:
-                {
-                    return IncorrectParameters.TableHeightIncorrect;
-                }
-                default:
-                {
-                    return IncorrectParameters.TopAndLegsAreaIncorrect;
-                }
-            }
+                {ParamType.TopWidth, IncorrectParameters.TopWidthIncorrect},
+                {ParamType.TopDepth, IncorrectParameters.TopDepthIncorrect},
+                {ParamType.TopHeight, IncorrectParameters.TopHeightIncorrect},
+                {ParamType.LegWidth, IncorrectParameters.LegWidthIncorrect},
+                {ParamType.TableHeight, IncorrectParameters.TableHeightIncorrect},
+            };
+
+            return dict[type];
         }
     }
 }
